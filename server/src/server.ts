@@ -6,6 +6,9 @@ import dotenv from "dotenv";
 // Import mongoose
 import mongoose from "mongoose";
 
+// Import Product Routes
+import productRoutes from './routes/products';
+
 // Read .env file and load into process.env
 dotenv.config();
 
@@ -31,6 +34,9 @@ app.use(express.json());
 
 // Middleware: Parse URL-encoded form data (for HTML forms)
 app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api/products', productRoutes);
 
 // Define health check route (test if server works)
 app.get("/health", (_req: Request, res: Response) => {
