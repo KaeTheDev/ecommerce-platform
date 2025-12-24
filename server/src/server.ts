@@ -12,6 +12,8 @@ import productRoutes from './routes/products';
 import orderRoutes from './routes/orders';
 // Import Review Routes
 import reviewRoutes from './routes/reviews';
+// Import User Routes
+import userRoutes from './routes/users';
 
 // Read .env file and load into process.env
 dotenv.config();
@@ -43,6 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/users', userRoutes)
 
 // Define health check route (test if server works)
 app.get("/health", (_req: Request, res: Response) => {

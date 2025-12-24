@@ -1,4 +1,4 @@
-import { Schema, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 // TS Interface for Order Items
 export interface IOrderItem {
@@ -41,3 +41,5 @@ const orderSchema = new Schema<IOrder>({
     }],
     total: { type: Number, required: true }
 })
+
+export const Order = model<IOrder>('Order', orderSchema);

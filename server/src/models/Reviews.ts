@@ -1,4 +1,4 @@
-import { Schema, Document } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 // TS Interface for Product Item
 export interface IProductItem {
@@ -28,3 +28,6 @@ const reviewSchema = new Schema<IReview>({
 }, 
 { timestamps: true }
 )
+
+// Mongoose Model - typed constructor that gets imported elsewhere
+export const Review = model<IReview>('Review', reviewSchema);
