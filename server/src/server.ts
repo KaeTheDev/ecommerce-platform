@@ -8,6 +8,8 @@ import mongoose from "mongoose";
 
 // Import Product Routes
 import productRoutes from './routes/products';
+// Import Order Routes
+import orderRoutes from './routes/orders';
 
 // Read .env file and load into process.env
 dotenv.config();
@@ -37,6 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Define health check route (test if server works)
 app.get("/health", (_req: Request, res: Response) => {
