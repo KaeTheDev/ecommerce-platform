@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/KaeTheDev/Luxarist#readme",
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.3"
   }
 }
