@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
 // TS Interface for Order Items
 export interface IOrderItem {
@@ -9,7 +9,7 @@ export interface IOrderItem {
     subtotal: number;
 }
 
-// TS Interface - the shape of a Order document
+// TS Interface - the shape of an Order document
 export interface IOrder extends Document {
     orderNumber: number;
     customerId: number;
