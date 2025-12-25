@@ -1,10 +1,18 @@
-function App() {
+import { Routes, Route } from "react-router-dom";
+import { Dashboard } from "./pages/Dashboard";
+import { Home } from "./pages/Home";
+import { UserProfile } from "./pages/UserProfile";
 
+function App() {
   return (
     <>
-  <h1 className="text-3xl text-purple-500">Welcome to Luxarist!</h1>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/userProfile" element={<UserProfile />}></Route>
+        </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
