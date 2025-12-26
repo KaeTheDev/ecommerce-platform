@@ -14,6 +14,9 @@ import orderRoutes from './routes/orders';
 import reviewRoutes from './routes/reviews';
 // Import User Routes
 import userRoutes from './routes/users';
+// Import Auth Routes
+import authRoutes from './routes/auth';
+
 
 // Read .env file and load into process.env
 dotenv.config();
@@ -41,11 +44,12 @@ app.use(express.json());
 // Middleware: Parse URL-encoded form data (for HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// Register Routes
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/users', userRoutes)
+app.use('/api/auth', authRoutes);
 
 // Define health check route (test if server works)
 app.get("/health", (_req: Request, res: Response) => {
@@ -60,4 +64,9 @@ const PORT: string | number = process.env.PORT || 3000;
 app.listen(PORT, () => {
   // Log confirmation when server starts successfully
   console.log(`Server is running on PORT: ${PORT}`);
+});
+
+
+mongoose.connection.once("open", () => {
+  console.log(`Connected to database: ${mongoose.connection.name}`);
 });

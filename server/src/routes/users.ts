@@ -12,16 +12,12 @@ router.get('/:id', (_req: Request, res: Response) =>{
     res.json({mssg: 'GET a single user'})
 });
 
-// POST a user
-router.post('/', (_req: Request, res: Response) =>{
-    res.json({mssg: 'POST a user'})
-});
-
 // DELETE a user
 router.delete('/:id', (_req: Request, res: Response) => {
     res.json({mssg: 'DELETE a user'})
-})
+});
 
+//  Update a user
 router.patch('/:id', (_req: Request, res: Response) => {
     res.json({mssg: 'UPDATE a user'})
 });
