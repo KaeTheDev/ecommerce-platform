@@ -1,7 +1,4 @@
-import React, {
-  createContext,
-  useState,
-} from "react";
+import React, { createContext, useState, useContext } from "react";
 import type { User } from "../types/User";
 
 export interface AuthContextType {
@@ -69,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const res = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userData }),
+            body: JSON.stringify(userData),
         });
 
         if(!res.ok) {
@@ -107,3 +104,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+  // useAuth hook
+  export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if(!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
+  }
