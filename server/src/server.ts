@@ -65,8 +65,3 @@ app.listen(PORT, () => {
   // Log confirmation when server starts successfully
   console.log(`Server is running on PORT: ${PORT}`);
 });
-
-
-mongoose.connection.once("open", () => {
-  console.log(`Connected to database: ${mongoose.connection.name}`);
-});
