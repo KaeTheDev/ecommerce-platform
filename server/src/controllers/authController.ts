@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { User } from "../models/Users";
 
 // Login User -- Have to use export for TypeScript not module.exportss
@@ -18,19 +19,28 @@ export const loginUser = async(req: Request, res: Response) =>{
     if(!isValidPassword) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+    
+    // 3. Sign JWT
+    const token = jwt.sign(
+      { userId: user._id.toString(), role: user.role },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "7d"}
+    );
 
-    // 3. SUCCESS - return user info (no password)
+    // 4. Return token + safe user
     res.status(200).json({
       message: "Login successful",
+      token,
       user: {
-        id: user._id,
+        id: user._id.toString(),
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         role: user.role
-      }
+      },
     });
   } catch (error) {
+    console.error("Login error:", error);
     res.status(400).json({ error: "Login failed" });
   }
 };
