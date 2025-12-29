@@ -1,5 +1,3 @@
-import type { User } from "./User";
-
 export interface RegistrationFormData {
     firstName: string;
     lastName: string;
@@ -10,6 +8,6 @@ export interface RegistrationFormData {
 }
 
 export interface RegistrationFormProps {
-    onSubmit: (user: User) => void;
-    initialData?: User;
+    onSubmit: (data: RegistrationFormData) => void;
+    initialData?: Partial<RegistrationFormData>;
 }

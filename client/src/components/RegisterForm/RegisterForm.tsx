@@ -1,6 +1,17 @@
-import { useId } from "react";
+import { useId, useState } from "react";
+import type { RegistrationFormData } from "../../types/Registration";
+import type { RegistrationFormProps } from "../../types/Registration";
 
-export const RegisterForm = () => {
+export const RegisterForm: React.FC<RegistrationFormProps> =({ onSubmit, initialData }) => {
+  const [formData, setFormData] = useState<RegistrationFormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    adminPasscode: 1234
+  });
+
   const firstNameId = useId();
   const lastNameId = useId();
   const emailId = useId();
@@ -10,8 +21,15 @@ export const RegisterForm = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("Form Submitted")
+    onSubmit(formData);
+    if(!initialData) {
+      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", adminPasscode: undefined})
+    };
   }
+
+  const handleInputChange = (field: keyof RegistrationFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-100 p-6 space-y-5 bg-white rounded-2xl shadow-xl border border-gray-100">
@@ -22,6 +40,9 @@ export const RegisterForm = () => {
         </label>
         <input 
           type="text" 
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleInputChange('firstName')}
           id={firstNameId}
           className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
           placeholder="Jane"
@@ -33,6 +54,9 @@ export const RegisterForm = () => {
         </label>
         <input 
           type="text" 
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleInputChange('lastName')}
           id={lastNameId}
           className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
           placeholder="Doe"
@@ -48,6 +72,9 @@ export const RegisterForm = () => {
         </label>
         <input 
           type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange('email')}
           id={emailId}
           className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
           placeholder="your.email@example.com"
@@ -60,6 +87,9 @@ export const RegisterForm = () => {
         </label>
         <input 
           type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange('password')}
           id={passwordId}
           className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
           placeholder="Minimum 8 characters"
@@ -72,6 +102,9 @@ export const RegisterForm = () => {
         </label>
         <input 
           type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleInputChange('confirmPassword')}
           id={confirmPasswordId}
           className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
           placeholder="Re-enter your password"
@@ -84,6 +117,9 @@ export const RegisterForm = () => {
         </label>
         <input 
           type="password" 
+          name="adminPasscode"
+          value={formData.adminPasscode}
+          onChange={handleInputChange('adminPasscode')}
           id={adminPasscodeId}
           className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
           placeholder="Leave blank for customer access"
