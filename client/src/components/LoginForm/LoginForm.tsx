@@ -44,8 +44,10 @@ export const LoginForm = () => {
           />
         </div>
       </div>
-      <a href="#" className="text-sm text-gray-500">
+      <a href="#" className="text-sm text-gray-800 hover:text-gray-400">
+      <div className="text-right mb-3.5">
         Forgot Password?
+        </div>
       </a>
       <button
         type="submit"
