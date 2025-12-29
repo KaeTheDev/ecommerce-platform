@@ -28,7 +28,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-gray-100"
         onClick={(e) => e.stopPropagation()}
       >
-        <h1 className="text-center mt-3 text-2xl font-bold">LUXARIST</h1>
+        <img src="/assets/LuxaristLogo.png" alt="Luxarist Logo" className="mx-auto h-15"  />
         {/* Header with tabs */}
         <div className="p-6 pb-0 border-b border-gray-100">
           {/* Tabs */}
