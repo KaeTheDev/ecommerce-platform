@@ -25,7 +25,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       onClick={handleBackdropClick}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-gray-100"
+        className="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-gray-100"
         onClick={(e) => e.stopPropagation()}
       >
         <img src="/assets/LuxaristLogo.png" alt="Luxarist Logo" className="mx-auto h-15"  />
