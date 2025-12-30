@@ -6,6 +6,9 @@ import dotenv from "dotenv";
 // Import mongoose
 import mongoose from "mongoose";
 
+// Import cors
+import cors from 'cors';
+
 // Import Product Routes
 import productRoutes from './routes/products';
 // Import Order Routes
@@ -43,6 +46,12 @@ app.use(express.json());
 
 // Middleware: Parse URL-encoded form data (for HTML forms)
 app.use(express.urlencoded({ extended: true }));
+
+// cors
+app.use(cors({
+  origin: 'http://localhost:5173',  
+  credentials: true
+}));
 
 // Register Routes
 app.use('/api/products', productRoutes);

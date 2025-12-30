@@ -1,15 +1,45 @@
 import { useState } from "react";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
+import type { RegistrationFormData } from "../../types/Registration";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+
 export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
 
+  const handleRegisterSubmit = async (formData: RegistrationFormData) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          adminPasscode: formData.adminPasscode || undefined,
+        }),
+      });
+  
+      if (response.ok) {
+        // Registration success - close modal, maybe show success message
+        onClose();
+        console.log('User registered!');
+      } else {
+        const error = await response.json();
+        console.error('Registration failed:', error);
+        // Show error to user (you'll add toast/error state later)
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  };
+  
   if (!isOpen) return null;
 
   // Close when clicking outside modal
@@ -58,7 +88,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
         {/* Form content */}
         <div className="p-6">
-          {activeTab === "login" ? <LoginForm /> : <RegisterForm />}
+          {activeTab === "login" ? <LoginForm /> : <RegisterForm onSubmit={handleRegisterSubmit}/>}
         </div>
       </div>
     </div>
