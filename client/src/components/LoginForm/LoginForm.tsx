@@ -1,13 +1,27 @@
-import { useId } from "react";
+import { useId, useState } from "react";
+import type { LoginFormData } from "../../types/Login";
+import type { LoginFormProps } from "../../types/Login";
 
-export const LoginForm = () => {
+export const LoginForm: React.FC<LoginFormProps> =({ onSubmit, initialData }) => {
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: ""
+  });
+
   const emailId = useId();
   const passwordId = useId();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("User Logged In");
+    onSubmit(formData);
+    if(!initialData) {
+      setFormData({ email: "", password: ""})
+    };
   }
+
+  const handleInputChange = (field: keyof LoginFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  };
 
   return (
     <form
@@ -24,6 +38,9 @@ export const LoginForm = () => {
           </label>
           <input
             type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange('email')}
             id={emailId}
             className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
             placeholder="your.email@example.com"
@@ -38,6 +55,9 @@ export const LoginForm = () => {
           </label>
           <input
             type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange('password')}
             id={passwordId}
             className="w-full h-11 px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 outline-none transition-all text-sm"
             placeholder="Enter your password"

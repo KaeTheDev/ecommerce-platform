@@ -3,6 +3,7 @@ import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 import type { RegistrationFormData } from "../../types/Registration";
 import { useNavigate } from "react-router-dom";
+import type { LoginFormData } from "../../types/Login";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -56,7 +57,44 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         onClose();
       } else {
         const error = await response.json();
-        console.error('Registration failed:', error);
+        console.error('Registration Failed:', error);
+        // Show error to user (add toast/error state later)
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  };
+
+  const handleLoginSubmit = async (formData: LoginFormData) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('User Logged In', data);
+
+        // Save JWT to localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        // Redirect based on role
+        if(data.user?.role === 'customer') {
+          navigate('/userProfile');
+        } else {
+          navigate('/dashboard');
+        }
+        // Registration success - close modal, (ADD LATER: show success message)
+        onClose();
+      } else {
+        const error = await response.json();
+        console.error('Login Failed:', error);
         // Show error to user (add toast/error state later)
       }
     } catch (error) {
@@ -103,7 +141,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
         {/* Form content */}
         <div className="p-6">
-          {activeTab === "login" ? <LoginForm /> : <RegisterForm onSubmit={handleRegisterSubmit}/>}
+          {activeTab === "login" ? <LoginForm onSubmit={handleLoginSubmit}/> : <RegisterForm onSubmit={handleRegisterSubmit}/>}
         </div>
       </div>
     </div>
