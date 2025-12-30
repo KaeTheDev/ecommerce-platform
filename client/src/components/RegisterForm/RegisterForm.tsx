@@ -9,7 +9,7 @@ export const RegisterForm: React.FC<RegistrationFormProps> =({ onSubmit, initial
     email: "",
     password: "",
     confirmPassword: "",
-    adminPasscode: undefined as any
+    adminPasscode: ""
   });
 
   const firstNameId = useId();
@@ -23,7 +23,7 @@ export const RegisterForm: React.FC<RegistrationFormProps> =({ onSubmit, initial
     event.preventDefault();
     onSubmit(formData);
     if(!initialData) {
-      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", adminPasscode: undefined})
+      setFormData({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", adminPasscode: ""})
     };
   }
 

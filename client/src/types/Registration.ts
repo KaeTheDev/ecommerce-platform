@@ -4,7 +4,7 @@ export interface RegistrationFormData {
     email: string;
     password: string;
     confirmPassword: string;
-    adminPasscode?: number;
+    adminPasscode?: string;
 }
 
 export interface RegistrationFormProps {
