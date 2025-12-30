@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { Dashboard } from "../../pages/Dashboard";
+import { Dashboard } from "../../pages/Panel";
 import { UserProfile } from "../../pages/UserProfile";
 
 export const AdminRoute = () => {
