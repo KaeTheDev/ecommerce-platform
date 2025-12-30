@@ -82,9 +82,16 @@ export const registerUser = async (req: Request, res: Response) => {
       
       // Save to DB
       await user.save();
+
+      const token = jwt.sign(
+        { userId: user._id, email: user.email, role: user.role },
+        process.env.JWT_SECRET!,
+        { expiresIn: '7d'}
+      );
       
       res.status(201).json({ 
         message: "User created", 
+        token,
         user: { id: user._id, firstName, lastName, email, role: user.role }
       });
     } catch (error: any) {

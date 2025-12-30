@@ -42,6 +42,10 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         const data = await response.json();
         console.log('User Registered!', data);
 
+        // Save JWT to localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
         // Redirect based on role
         if(data.user?.role === 'customer') {
           navigate('/userProfile');
