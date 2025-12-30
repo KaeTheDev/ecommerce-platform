@@ -5,22 +5,26 @@ import { Home } from "./pages/Home";
 import { UserProfile } from "./pages/UserProfile";
 import Navbar from "./components/Navbar/Navbar";
 import { AuthModal } from "./components/AuthModal/AuthModal";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
     <>
-    <Navbar onAuthClick={() => setShowAuthModal(true)} />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
+      <Navbar onAuthClick={() => setShowAuthModal(true)} />
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+
+        <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/userProfile" element={<UserProfile />}></Route>
-        </Routes>
+        </Route>
+      </Routes>
 
-        <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
       />
     </>
   );
