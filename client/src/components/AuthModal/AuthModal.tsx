@@ -2,17 +2,28 @@ import { useState } from "react";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 import type { RegistrationFormData } from "../../types/Registration";
+import { useNavigate } from "react-router-dom";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-
 export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
 
-  const handleRegisterSubmit = async (formData: RegistrationFormData) => {
+  if (!isOpen) return null;
+
+   // Close when clicking outside modal
+   const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const handleRegisterSubmit = async (formData: RegistrationFormData) => 
+  {
     try {
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
@@ -27,25 +38,25 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       });
   
       if (response.ok) {
-        // Registration success - close modal, maybe show success message
+
+        const data = await response.json();
+        console.log('User Registered!', data);
+
+        // Redirect based on role
+        if(data.user?.role === 'customer') {
+          navigate('/userProfile');
+        } else {
+          navigate('/dashboard');
+        }
+        // Registration success - close modal, (ADD LATER: show success message)
         onClose();
-        console.log('User registered!');
       } else {
         const error = await response.json();
         console.error('Registration failed:', error);
-        // Show error to user (you'll add toast/error state later)
+        // Show error to user (add toast/error state later)
       }
     } catch (error) {
       console.error('Network error:', error);
-    }
-  };
-  
-  if (!isOpen) return null;
-
-  // Close when clicking outside modal
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
     }
   };
 

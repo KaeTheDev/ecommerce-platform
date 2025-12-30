@@ -47,9 +47,26 @@ export const loginUser = async(req: Request, res: Response) =>{
 
 // Register User
 export const registerUser = async (req: Request, res: Response) => {
-    try {
-      const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, adminPasscode } = req.body;
+
+    try {   
       
+      // Check admin passcode against ENV variable
+      let role = 'customer';
+      if(adminPasscode) {
+        const correctPasscode = process.env.ADMIN_PASSCODE;
+        if(adminPasscode.toString() !== correctPasscode) {
+          return res.status(400).json({ error: 'Invalid admin passcode' });
+        }
+
+        // Check if admin already exists ("one admin only" rule)
+        const existingAdmin = await User.findOne({ role: 'admin' });
+        if(existingAdmin) {
+          return res.status(400).json({ error: 'Admin already exists' });
+        }
+
+        role = 'admin';
+      }
       // Hash password
       const salt = await bcrypt.genSalt(12);
       const passwordHash = await bcrypt.hash(password, salt);
@@ -59,8 +76,8 @@ export const registerUser = async (req: Request, res: Response) => {
         firstName,
         lastName,
         email,
-        passwordHash,
-        role: "customer"
+        passwordHash: passwordHash,
+        role: role
       });
       
       // Save to DB
@@ -70,7 +87,7 @@ export const registerUser = async (req: Request, res: Response) => {
         message: "User created", 
         user: { id: user._id, firstName, lastName, email, role: user.role }
       });
-    } catch (error) {
-      res.status(400).json({ error: "Email already exists" });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
   };
