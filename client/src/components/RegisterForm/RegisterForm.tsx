@@ -1,6 +1,5 @@
 import { useId, useState } from "react";
-import type { RegistrationFormData } from "../../types/Registration";
-import type { RegistrationFormProps } from "../../types/Registration";
+import type { RegistrationFormData, RegistrationFormProps } from "../../types/Registration";
 
 export const RegisterForm: React.FC<RegistrationFormProps> =({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState<RegistrationFormData>({
