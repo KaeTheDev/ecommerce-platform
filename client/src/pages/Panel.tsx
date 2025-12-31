@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header/Header";
 import DashboardOverview from "../components/DashboardOverview/DashboardOverview";
 import ProductsTab from "../components/ProductsTab/ProductsTab";
+import OrdersTab from "../components/OrdersTab/OrdersTab";
 
 export const Panel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -20,6 +21,8 @@ export const Panel = () => {
         return <DashboardOverview />;
       case "products":
         return <ProductsTab />;
+      case "orders":
+       return <OrdersTab />;
       default:
         return <DashboardOverview />;
     }
