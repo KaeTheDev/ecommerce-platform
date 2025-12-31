@@ -1,13 +1,9 @@
 import { Request, Response } from "express";
 
-// Login User
-const loginUser = async(_req: Request, res: Response) =>{
-    res.json({mssg: 'login user'})
-};
+// GET all users (admin only)
 
-// Register User
-const registerUser = async(_req: Request, res: Response)=> {
-    res.json({mssg: 'register user'})
-};
+// GET single user by ID
 
-module.exports = { loginUser, registerUser }
+// UPDATE user by ID
+
+// DELETE user by ID

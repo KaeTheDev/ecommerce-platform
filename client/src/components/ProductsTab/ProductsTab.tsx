@@ -6,7 +6,7 @@ const ProductsTab = () => {
         <p className="text-3xl">Products</p>
         <p className="text-sm -mb-2">Manage Your Store Products</p>
       </div>
-      <button className="absolute top-11 right-4 lg:right-8 bg-blue-500 text-white px-4 lg:px-6 py-2 rounded-xl hover:bg-blue-600 transition-all whitespace-nowrap">
+      <button className="absolute top-11 right-4 lg:right-8 bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-xl hover:bg-blue-400 transition-all whitespace-nowrap">
         + Create Product
       </button>
     </div>
