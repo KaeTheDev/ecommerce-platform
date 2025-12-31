@@ -51,7 +51,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         if(data.user?.role === 'customer') {
           navigate('/userProfile');
         } else {
-          navigate('/dashboard');
+          navigate('/panel');
         }
         // Registration success - close modal, (ADD LATER: show success message)
         onClose();
@@ -88,7 +88,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         if(data.user?.role === 'customer') {
           navigate('/userProfile');
         } else {
-          navigate('/dashboard');
+          navigate('/panel');
         }
         // Registration success - close modal, (ADD LATER: show success message)
         onClose();

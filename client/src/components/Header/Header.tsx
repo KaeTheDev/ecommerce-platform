@@ -5,7 +5,7 @@ interface HeaderProps {
 
 const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
   return (
-    <div className="bg-white border-b p-6 flex flex-row justify-between items-center">
+    <div className="bg-white border p-6 flex flex-row justify-between items-center">
       {!isSidebarOpen && (
         <button 
           className="lg:hidden p-2 bg-white rounded-xl shadow-lg z-50"
