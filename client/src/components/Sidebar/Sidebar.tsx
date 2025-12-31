@@ -8,7 +8,7 @@ interface SidebarProps {
   const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }: SidebarProps) => {
     return (
       <div 
-        className={`w-64 shrink-0 bg-white shadow-lg border flex flex-col h-full z-40 
+        className={`w-64 shrink-0 bg-white shadow-lg border flex flex-col h-screen z-40 
           lg:static fixed inset-y-0 left-0 transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
