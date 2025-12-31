@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
 
-          <Route path="/dashboard" element={<AdminRoute />}></Route>
+          <Route path="/panel" element={<AdminRoute />}></Route>
           <Route path="/userProfile" element={<CustomerRoute />}></Route>
       </Routes>
 

@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { Dashboard } from "../../pages/Panel";
+import { Panel } from "../../pages/Panel";
 import { UserProfile } from "../../pages/UserProfile";
 
 export const AdminRoute = () => {
@@ -11,7 +11,7 @@ export const AdminRoute = () => {
     const parsedUser = JSON.parse(user);
     if (parsedUser.role !== 'admin') return <Navigate to="/userProfile" replace />;
 
-    return <Dashboard />; 
+    return <Panel />; 
 };
 
 export const CustomerRoute = () => {
