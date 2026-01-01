@@ -1,4 +1,9 @@
-const ProductsTab = () => {
+interface ProductsTabProps {
+    onOpenProductForm: () => void;
+};
+
+
+const ProductsTab = ({ onOpenProductForm }: ProductsTabProps) => {
   return (
 <>
 <div className="p-8 min-h-150px relative">
@@ -6,7 +11,7 @@ const ProductsTab = () => {
         <p className="text-3xl">Products</p>
         <p className="text-sm -mb-2">Manage Your Store Products</p>
       </div>
-      <button className="absolute top-11 right-4 lg:right-8 bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-xl hover:bg-blue-400 transition-all whitespace-nowrap">
+      <button onClick={onOpenProductForm} className="absolute top-11 right-4 lg:right-8 bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-xl hover:bg-blue-400 transition-all whitespace-nowrap">
         + Create Product
       </button>
     </div>
