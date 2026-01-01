@@ -5,6 +5,7 @@ import {
   buildSku,
   getCategoryDefaults,
 } from "../../constants/productConfig";
+import { uploadImage } from "../../api/uploadImage";
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   onSubmit,
@@ -30,6 +31,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     createdAt: new Date(),
     updatedAt: new Date(),
   });
+
+  const [primaryPreview, setPrimaryPreview] = useState<string | null>(
+    initialData?.primaryImageUrl ?? null
+  );
+
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>(
+    initialData?.galleryImageUrls ?? []
+  );
+
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleInputChange =
     (field: keyof ProductFormData) =>
@@ -76,6 +87,65 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       });
     }
   };
+
+  const handlePrimaryImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Local Preview
+    const previewUrl = URL.createObjectURL(file);
+    setPrimaryPreview(previewUrl);
+
+    try {
+      setIsUploading(true);
+
+      const uploadedUrl = await uploadImage(file);
+
+      setFormData((prev) => ({
+        ...prev,
+        primaryImageUrl: uploadedUrl,
+      }));
+    } catch (err) {
+      console.error(err);
+      alert("Primary image upload failed");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleGalleryImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+  
+    const fileArray = Array.from(files);
+  
+    // Show local previews immediately
+    const previews = fileArray.map((file) => URL.createObjectURL(file));
+    setGalleryPreviews((prev) => [...prev, ...previews]);
+  
+    setIsUploading(true);
+  
+    try {
+      const uploadedUrls = await Promise.all(
+        fileArray.map((file) => uploadImage(file))
+      );
+  
+      setFormData((prev) => ({
+        ...prev,
+        galleryImageUrls: [...prev.galleryImageUrls, ...uploadedUrls],
+      }));
+    } catch (err) {
+      console.error(err);
+      alert("Some gallery images failed to upload. Check console.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+  
 
   // Dynamically build SKU based on category + gemstone type
   useEffect(() => {
@@ -177,48 +247,97 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
         </div>
 
-        {/* PRODUCT IMAGES */}
-        <div className="border border-gray-200 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold mb-4">Product Images</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label
-                htmlFor="primaryImageUrl"
-                className="block text-sm font-medium mb-2"
-              >
-                Main Image
-              </label>
-              <p className="text-sm text-gray-500 mb-3">
-                Click to upload main product image <br /> PNG, JPG up to 10MB
-              </p>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-blue-400 transition-colors">
-                <p className="text-sm text-gray-500">Upload main image</p>
-              </div>
-              <input
-                id="primaryImageUrl"
-                type="file"
-                className="hidden"
-                onChange={handleInputChange("primaryImageUrl")}
-              />
-            </div>
+{/* PRODUCT IMAGES */}
+<div className="border border-gray-200 rounded-2xl p-6">
+  <h3 className="text-lg font-semibold mb-4">Product Images</h3>
+  <div className="grid md:grid-cols-2 gap-6">
 
-            <div>
-              <label
-                htmlFor="galleryImageUrl"
-                className="block text-sm font-medium mb-2"
-              >
-                Image Gallery
-              </label>
-              <p className="text-xs text-gray-500 mb-3">
-                Click to upload additional images <br /> Multiple images
-                supported
-              </p>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-blue-400 transition-colors">
-                <p className="text-sm text-gray-500">Upload Gallery Images</p>
-              </div>
-            </div>
-          </div>
+    {/* PRIMARY IMAGE */}
+    <div>
+      <label
+        htmlFor="primaryImageUrl"
+        className="block text-sm font-medium mb-2"
+      >
+        Main Image
+      </label>
+
+      <label
+        htmlFor="primaryImageUrl"
+        className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition-colors block"
+      >
+        <p className="text-sm text-gray-500">
+          Click to upload main product image <br />
+          PNG, JPG up to 10MB
+        </p>
+      </label>
+
+      <input
+        id="primaryImageUrl"
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handlePrimaryImageChange}
+      />
+
+      {primaryPreview && (
+        <img
+          src={primaryPreview}
+          alt="Primary preview"
+          className="mt-4 w-40 h-40 object-cover rounded-xl border"
+        />
+      )}
+
+      {isUploading && (
+        <p className="text-sm text-gray-500 mt-2">Uploading image...</p>
+      )}
+    </div>
+
+    {/* GALLERY IMAGES */}
+    <div>
+      <label
+        htmlFor="galleryImages"
+        className="block text-sm font-medium mb-2"
+      >
+        Image Gallery
+      </label>
+
+      <label
+        htmlFor="galleryImages"
+        className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition-colors block"
+      >
+        <p className="text-sm text-gray-500">Upload Gallery Images</p>
+      </label>
+
+      <input
+        id="galleryImages"
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={handleGalleryImageChange}
+      />
+
+      {galleryPreviews.length > 0 && (
+        <div className="grid grid-cols-3 gap-3 mt-4">
+          {galleryPreviews.map((url, idx) => (
+            <img
+              key={idx}
+              src={url}
+              alt={`Gallery preview ${idx + 1}`}
+              className="w-24 h-24 object-cover rounded-lg border"
+            />
+          ))}
         </div>
+      )}
+
+      {isUploading && (
+        <p className="text-sm text-gray-500 mt-2">Uploading images...</p>
+      )}
+    </div>
+
+  </div>
+</div>
+
 
         {/* CATEGORY & SPECIFICATIONS */}
         <div className="border border-gray-200 rounded-2xl p-6 space-y-6">
@@ -245,57 +364,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               <option value="earrings">Earrings</option>
             </select>
           </div>
-
-          {/* SIZES */}
-          {/* <div>
-            <label className="block text-sm font-medium mb-2">Available Sizes</label>
-            {formData.category === "ring" ? (
-              <div className="flex flex-wrap gap-2">
-                {config.sizes.map((size) => {
-                  const selected = formData.sizes.includes(size);
-                  return (
-                    <button
-                      key={size}
-                      type="button"
-                      onClick={() =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          sizes: selected
-                            ? prev.sizes.filter((s) => s !== size)
-                            : [size], // only one active ring size at a time
-                        }))
-                      }
-                      className={`px-4 py-2 rounded-lg border text-sm transition ${
-                        selected
-                          ? "bg-black text-white border-black"
-                          : "bg-white text-gray-700 border-gray-300 hover:border-black"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <select
-                value={formData.sizes[0] || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    sizes: [e.target.value],
-                  })
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl"
-              >
-                <option value="">Select size</option>
-                {config.sizes.map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div> */}
 
           {/* MULTI-SIZE SELECTION FOR ALL CATEGORIES */}
           <div>
@@ -462,9 +530,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         <div className="flex justify-center gap-4">
           <button
             type="submit"
+            disabled={isUploading || !formData.primaryImageUrl}
             className="px-6 py-3 rounded-xl bg-black text-white hover:bg-gray-900 hover:shadow-lg hover:shadow-black/20 hover:scale-[1.02] border border-transparent hover:border-gray-200 transition-all duration-200"
           >
-            Save Product
+            {isUploading ? "Uploading..." : "Save Product"}
           </button>
 
           <button
