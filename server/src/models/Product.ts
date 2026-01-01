@@ -5,7 +5,7 @@ export interface IProduct extends Document {
     name: string;
     subtitle: string;
     category: 'ring' | 'bracelet' | 'watch' | 'necklace' | 'earrings';
-    price: number;
+    price: string;
     status: 'active' | 'inactive';
 
     primaryImageUrl: string;
@@ -15,6 +15,7 @@ export interface IProduct extends Document {
     material: string;
     gemstoneType: string;
     weightPreset: string;
+    style: string;
 
     description: string;
     careTemplateKey: string;
@@ -36,7 +37,7 @@ const productSchema = new Schema<IProduct>({
         required: true,
         enum: ['ring', 'bracelet', 'watch', 'necklace', 'earrings'],
     },
-    price: { type: Number, required: true },
+    price: { type: String, required: true },
     status: { type: String, required: true, enum: ['active', 'inactive'], default: 'active' },
 
     primaryImageUrl: { type: String, required: true },
