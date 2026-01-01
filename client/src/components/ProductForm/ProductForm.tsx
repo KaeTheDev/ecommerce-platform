@@ -120,20 +120,20 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   ) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
-  
+
     const fileArray = Array.from(files);
-  
+
     // Show local previews immediately
     const previews = fileArray.map((file) => URL.createObjectURL(file));
     setGalleryPreviews((prev) => [...prev, ...previews]);
-  
+
     setIsUploading(true);
-  
+
     try {
       const uploadedUrls = await Promise.all(
         fileArray.map((file) => uploadImage(file))
       );
-  
+
       setFormData((prev) => ({
         ...prev,
         galleryImageUrls: [...prev.galleryImageUrls, ...uploadedUrls],
@@ -145,7 +145,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setIsUploading(false);
     }
   };
-  
 
   // Dynamically build SKU based on category + gemstone type
   useEffect(() => {
@@ -247,97 +246,126 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           </div>
         </div>
 
-{/* PRODUCT IMAGES */}
-<div className="border border-gray-200 rounded-2xl p-6">
-  <h3 className="text-lg font-semibold mb-4">Product Images</h3>
-  <div className="grid md:grid-cols-2 gap-6">
+        {/* PRODUCT IMAGES */}
+        <div className="border border-gray-200 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold mb-4">Product Images</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* PRIMARY IMAGE */}
+            <div>
+              <label
+                htmlFor="primaryImageUrl"
+                className="block text-sm font-medium mb-2"
+              >
+                Main Image
+              </label>
 
-    {/* PRIMARY IMAGE */}
-    <div>
-      <label
-        htmlFor="primaryImageUrl"
-        className="block text-sm font-medium mb-2"
-      >
-        Main Image
-      </label>
+              <label
+                htmlFor="primaryImageUrl"
+                className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition-colors block"
+              >
+                <p className="text-sm text-gray-500">
+                  Click to upload main product image <br />
+                  PNG, JPG up to 10MB
+                </p>
+              </label>
 
-      <label
-        htmlFor="primaryImageUrl"
-        className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition-colors block"
-      >
-        <p className="text-sm text-gray-500">
-          Click to upload main product image <br />
-          PNG, JPG up to 10MB
-        </p>
-      </label>
+              <input
+                id="primaryImageUrl"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handlePrimaryImageChange}
+              />
 
-      <input
-        id="primaryImageUrl"
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handlePrimaryImageChange}
-      />
+              {primaryPreview && (
+                <div className="relative mt-4 w-40 h-40">
+                  <img
+                    src={primaryPreview}
+                    alt="Primary preview"
+                    className="w-full h-full object-cover rounded-xl border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPrimaryPreview(null);
+                      setFormData((prev) => ({ ...prev, primaryImageUrl: "" }));
+                    }}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
 
-      {primaryPreview && (
-        <img
-          src={primaryPreview}
-          alt="Primary preview"
-          className="mt-4 w-40 h-40 object-cover rounded-xl border"
-        />
-      )}
+              {isUploading && (
+                <p className="text-sm text-gray-500 mt-2">Uploading image...</p>
+              )}
+            </div>
 
-      {isUploading && (
-        <p className="text-sm text-gray-500 mt-2">Uploading image...</p>
-      )}
-    </div>
+            {/* GALLERY IMAGES */}
+            <div>
+              <label
+                htmlFor="galleryImages"
+                className="block text-sm font-medium mb-2"
+              >
+                Image Gallery
+              </label>
 
-    {/* GALLERY IMAGES */}
-    <div>
-      <label
-        htmlFor="galleryImages"
-        className="block text-sm font-medium mb-2"
-      >
-        Image Gallery
-      </label>
+              <label
+                htmlFor="galleryImages"
+                className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition-colors block"
+              >
+                <p className="text-sm text-gray-500">Upload Gallery Images</p>
+              </label>
 
-      <label
-        htmlFor="galleryImages"
-        className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 transition-colors block"
-      >
-        <p className="text-sm text-gray-500">Upload Gallery Images</p>
-      </label>
+              <input
+                id="galleryImages"
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={handleGalleryImageChange}
+              />
 
-      <input
-        id="galleryImages"
-        type="file"
-        accept="image/*"
-        multiple
-        className="hidden"
-        onChange={handleGalleryImageChange}
-      />
+              {galleryPreviews.length > 0 && (
+                <div className="grid grid-cols-3 gap-3 mt-4">
+                  {galleryPreviews.map((url, idx) => (
+                    <div key={idx} className="relative w-24 h-24">
+                      <img
+                        src={url}
+                        alt={`Gallery preview ${idx + 1}`}
+                        className="w-full h-full object-cover rounded-lg border"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setGalleryPreviews((prev) =>
+                            prev.filter((_, i) => i !== idx)
+                          );
+                          setFormData((prev) => ({
+                            ...prev,
+                            galleryImageUrls: prev.galleryImageUrls.filter(
+                              (_, i) => i !== idx
+                            ),
+                          }));
+                        }}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-      {galleryPreviews.length > 0 && (
-        <div className="grid grid-cols-3 gap-3 mt-4">
-          {galleryPreviews.map((url, idx) => (
-            <img
-              key={idx}
-              src={url}
-              alt={`Gallery preview ${idx + 1}`}
-              className="w-24 h-24 object-cover rounded-lg border"
-            />
-          ))}
+              {isUploading && (
+                <p className="text-sm text-gray-500 mt-2">
+                  Uploading images...
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-      )}
-
-      {isUploading && (
-        <p className="text-sm text-gray-500 mt-2">Uploading images...</p>
-      )}
-    </div>
-
-  </div>
-</div>
-
 
         {/* CATEGORY & SPECIFICATIONS */}
         <div className="border border-gray-200 rounded-2xl p-6 space-y-6">
