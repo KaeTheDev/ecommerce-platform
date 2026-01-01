@@ -9,6 +9,12 @@ import mongoose from "mongoose";
 // Import cors
 import cors from 'cors';
 
+// Middleware used for uploading files in web applications
+import multer from "multer";
+
+// Built-in utility module for working with file and directory paths
+import path from "path";
+
 // Import Product Routes
 import productRoutes from './routes/products';
 // Import Order Routes
@@ -41,6 +47,12 @@ const uri: string =
 // Create Express application instance with proper typing
 const app: Express = express();
 
+// Serve uploaded files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// temporary storage
+const upload = multer({ dest: "uploads/" });
+
 // Middleware: Parse JSON request bodies (for API calls)
 app.use(express.json());
 
@@ -52,6 +64,11 @@ app.use(cors({
   origin: 'http://localhost:5173',  
   credentials: true
 }));
+
+app.post("/api/uploads", upload.single("file"), (req, res) => {
+  if(!req.file) return res.status(400).json({ error: "No file uploaded" });
+  res.json({ url: `uploads/${req.file.filename}` });
+});
 
 // Register Routes
 app.use('/api/products', productRoutes);
