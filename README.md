@@ -10,3 +10,6 @@ https://www.youtube.com/watch?v=s0anSjEeua8&list=PL4cUxeGkcC9iJ_KkrkBZWZRHVwnzLI
 
 https://www.youtube.com/watch?v=sRFI6L0a38E&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT&index=4
 
+https://medium.com/@amarjithaj7/building-a-class-based-node-js-express-project-with-multer-for-file-uploads-966a79e890a7
+
+https://blog.logrocket.com/multer-nodejs-express-upload-file/
