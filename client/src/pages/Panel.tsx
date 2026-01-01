@@ -71,7 +71,7 @@ export const Panel = () => {
             {/* Modal Header */}
             <div className="sticky top-0 bg-white/90 backdrop-blur-sm p-6 border-b border-gray-200 flex justify-between items-center z-10">
               <h2 className="text-2xl font-bold text-gray-900">
-                Create New Product
+                New Product
               </h2>
               <button
                 onClick={handleCloseProductForm}
