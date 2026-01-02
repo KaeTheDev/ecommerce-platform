@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
-import { AuthModal } from "./components/AuthModal/AuthModal";
-import { AdminRoute, CustomerRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { AuthModal } from "./components/Auth/AuthModal/AuthModal";
+import { AdminRoute, CustomerRoute } from "./components/Routing/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);

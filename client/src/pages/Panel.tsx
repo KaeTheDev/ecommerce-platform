@@ -1,12 +1,13 @@
 import { useState } from "react";
-import Sidebar from "../components/Sidebar/Sidebar";
-import Header from "../components/Header/Header";
-import DashboardOverview from "../components/DashboardOverview/DashboardOverview";
-import ProductsTab from "../components/ProductsTab/ProductsTab";
-import OrdersTab from "../components/OrdersTab/OrdersTab";
-import ReviewsTab from "../components/ReviewsTab/ReviewsTab";
-import { ProductForm } from "../components/ProductForm/ProductForm";
+import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
+import Header from "../components/Dashboard/Header/Header";
+import DashboardOverview from "../components/Dashboard/DashboardOverview/DashboardOverview";
+import ProductsTab from "../components/Dashboard/ProductsTab/ProductsTab";
+import OrdersTab from "../components/Dashboard/OrdersTab/OrdersTab";
+import ReviewsTab from "../components/Dashboard/ReviewsTab/ReviewsTab";
+import { ProductForm } from "../components/Dashboard/ProductForm/ProductForm";
 import { createProduct } from "../api/products";
+import type { ProductFormData } from "../types/Product";
 import slugify from "slugify";
 
 export const Panel = () => {
@@ -95,23 +96,26 @@ export const Panel = () => {
 
             {/* ProductForm */}
             <div className="max-h-[calc(95vh-80px)] overflow-y-auto p-6">
-             <ProductForm
-  onSubmit={async (data) => {
-    try {
-      // Generate slug from product name
-      const slug = slugify(data.name, { lower: true, strict: true });
+              <ProductForm
+                onSubmit={async (data: ProductFormData) => {
+                  try {
+                    // Generate slug from product name
+                    const slug = slugify(data.name, {
+                      lower: true,
+                      strict: true,
+                    });
 
-      // Send data with slug to backend
-      await createProduct({ ...data, slug });
+                    // Send data with slug to backend
+                    await createProduct({ ...data, slug });
 
-      alert("Product saved successfully!");
-      setIsProductFormOpen(false);
-    } catch (err) {
-      console.error(err);
-      alert("Error saving product");
-    }
-  }}
-/>
+                    alert("Product saved successfully!");
+                    setIsProductFormOpen(false);
+                  } catch (err) {
+                    console.error(err);
+                    alert("Error saving product");
+                  }
+                }}
+              />
             </div>
           </div>
         </div>

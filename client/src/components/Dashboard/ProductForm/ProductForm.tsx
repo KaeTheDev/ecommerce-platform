@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
-import type { ProductFormData, ProductFormProps } from "../../types/Product";
-import {
-  CATEGORY_CONFIG,
-  buildSku,
-  getCategoryDefaults,
-} from "../../constants/productConfig";
-import { uploadImage } from "../../api/uploadImage";
+import type { ProductFormData, ProductFormProps } from "../../../types/Product";
+import { CATEGORY_CONFIG, buildSku, getCategoryDefaults } from "../../../constants/productConfig";
+import { uploadImage } from "../../../api/uploadImage";
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   onSubmit,

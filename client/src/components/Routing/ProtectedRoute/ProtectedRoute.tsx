@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { Panel } from "../../pages/Panel";
-import { UserProfile } from "../../pages/UserProfile";
+import { Panel } from "../../../pages/Panel";
+import { UserProfile } from "../../../pages/UserProfile";
 
 export const AdminRoute = () => {
     const token = localStorage.getItem('token');
