@@ -64,3 +64,6 @@ Thumbs.db
 # Optional
 npm-debug.log*
 *.local
+
+# Ignore uploaded files
+uploads/

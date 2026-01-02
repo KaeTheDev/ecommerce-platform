@@ -13,3 +13,8 @@ https://www.youtube.com/watch?v=sRFI6L0a38E&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lO
 https://medium.com/@amarjithaj7/building-a-class-based-node-js-express-project-with-multer-for-file-uploads-966a79e890a7
 
 https://blog.logrocket.com/multer-nodejs-express-upload-file/
+
+https://dev.to/bybydev/how-to-slugify-a-string-in-javascript-4o9n
+
+https://jasonwatmore.com/vanilla-js-slugify-a-string-in-javascript
+

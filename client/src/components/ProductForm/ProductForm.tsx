@@ -25,9 +25,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     weightPreset: "",
     style: "",
     description: "",
-    careTemplateKey: "",
     specsFromAttributes: false,
     sku: "",
+    slug: "",
     createdAt: new Date(),
     updatedAt: new Date(),
   });
@@ -58,6 +58,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       ...prev,
       category,
       ...defaults,
+       careTemplateKey: defaults.careTemplateKey || "",
     }));
   };
 
@@ -79,7 +80,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         weightPreset: "",
         style: "",
         description: "",
-        careTemplateKey: "",
         specsFromAttributes: false,
         sku: "",
         createdAt: new Date(),
@@ -152,6 +152,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     setFormData((prev) => ({ ...prev, sku: newSku }));
   }, [formData.category, formData.gemstoneType]);
 
+  
   const config =
     CATEGORY_CONFIG[formData.category as keyof typeof CATEGORY_CONFIG];
 

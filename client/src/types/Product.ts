@@ -15,10 +15,10 @@ export interface ProductFormData {
     style: string;
 
     description: string;
-    careTemplateKey: string;
     specsFromAttributes: boolean;
 
     sku: string;
+    slug?: string;
     createdAt: Date;
     updatedAt: Date;
 }

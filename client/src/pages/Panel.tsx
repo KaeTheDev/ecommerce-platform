@@ -6,6 +6,8 @@ import ProductsTab from "../components/ProductsTab/ProductsTab";
 import OrdersTab from "../components/OrdersTab/OrdersTab";
 import ReviewsTab from "../components/ReviewsTab/ReviewsTab";
 import { ProductForm } from "../components/ProductForm/ProductForm";
+import { createProduct } from "../api/products";
+import slugify from "slugify";
 
 export const Panel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -70,9 +72,7 @@ export const Panel = () => {
           <div className="bg-white rounded-3xl max-w-6xl w-full max-h-[95vh] overflow-hidden shadow-2xl">
             {/* Modal Header */}
             <div className="sticky top-0 bg-white/90 backdrop-blur-sm p-6 border-b border-gray-200 flex justify-between items-center z-10">
-              <h2 className="text-2xl font-bold text-gray-900">
-                New Product
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-900">New Product</h2>
               <button
                 onClick={handleCloseProductForm}
                 className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-all"
@@ -95,12 +95,23 @@ export const Panel = () => {
 
             {/* ProductForm */}
             <div className="max-h-[calc(95vh-80px)] overflow-y-auto p-6">
-              <ProductForm
-                onSubmit={(data) => {
-                  console.log("Product Saved:", data);
-                  setIsProductFormOpen(false);
-                }}
-              />
+             <ProductForm
+  onSubmit={async (data) => {
+    try {
+      // Generate slug from product name
+      const slug = slugify(data.name, { lower: true, strict: true });
+
+      // Send data with slug to backend
+      await createProduct({ ...data, slug });
+
+      alert("Product saved successfully!");
+      setIsProductFormOpen(false);
+    } catch (err) {
+      console.error(err);
+      alert("Error saving product");
+    }
+  }}
+/>
             </div>
           </div>
         </div>
