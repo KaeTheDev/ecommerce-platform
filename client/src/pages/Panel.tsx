@@ -120,7 +120,9 @@ export const Panel = () => {
                     });
 
                     // Send data with slug to backend
-                    await createProduct({ ...data, slug });
+                    const newProduct = await createProduct({ ...data, slug });
+
+                    setProducts((prev) => [newProduct, ...prev]);
 
                     // alert("Product saved successfully!");
                     setIsProductFormOpen(false);
