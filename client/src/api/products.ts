@@ -29,3 +29,14 @@ export async function createProduct(data: ProductFormData): Promise<ProductListI
   const data = await res.json();
   return data; 
 }
+
+export async function deleteProduct(productId: string) {
+  const res = await fetch(`/api/products/${productId}`, {
+    method: "DELETE"
+  });
+
+  if(!res.ok) {
+    const error = await res.json();
+    throw new Error(error.error || "Failed to delete product");
+  }
+}

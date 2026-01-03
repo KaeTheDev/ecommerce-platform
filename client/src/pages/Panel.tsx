@@ -6,7 +6,7 @@ import ProductsTab from "../components/Dashboard/ProductsTab/ProductsTab";
 import OrdersTab from "../components/Dashboard/OrdersTab/OrdersTab";
 import ReviewsTab from "../components/Dashboard/ReviewsTab/ReviewsTab";
 import { ProductForm } from "../components/Dashboard/ProductForm/ProductForm";
-import { createProduct, getProduct } from "../api/products";
+import { createProduct, getProduct, deleteProduct } from "../api/products";
 import type { ProductFormData, ProductListItem } from "../types/Product";
 import slugify from "slugify";
 
@@ -25,12 +25,22 @@ export const Panel = () => {
   const handleOpenProductForm = () => setIsProductFormOpen(true);
   const handleCloseProductForm = () => setIsProductFormOpen(false);
 
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteProduct(productId);
+setProducts((prev) => prev.filter((p) => p.id !== productId))
+    } catch(err) {
+      console.error(err);
+      alert("Failed to delete product");
+    }
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "dashboard":
         return <DashboardOverview />;
       case "products":
-        return <ProductsTab products={products} onOpenProductForm={handleOpenProductForm} />;
+        return <ProductsTab onDelete={handleDeleteProduct} products={products} onOpenProductForm={handleOpenProductForm} />;
       case "orders":
         return <OrdersTab />;
       case "reviews":

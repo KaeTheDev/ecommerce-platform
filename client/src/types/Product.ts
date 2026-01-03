@@ -23,8 +23,14 @@ export interface ProductFormData {
     updatedAt: Date;
 }
 
+export interface ProductsTabProps {
+    onOpenProductForm: () => void;
+    products: ProductListItem[];
+    onDelete: (productId: string) => void;
+  }  
+
 export interface ProductListItem {
-    id?: string;
+    id: string;
     name: string;
     price: string;
     status: "active" | "inactive";

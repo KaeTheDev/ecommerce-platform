@@ -1,11 +1,7 @@
-import type { ProductListItem } from "../../../types/Product";
+import type { ProductsTabProps } from "../../../types/Product";
 
-interface ProductsTabProps {
-  onOpenProductForm: () => void;
-  products: ProductListItem[];
-}
 
-const ProductsTab = ({ onOpenProductForm, products }: ProductsTabProps) => {
+const ProductsTab = ({ onOpenProductForm, products, onDelete }: ProductsTabProps) => {
   return (
     <>
       <div className="p-8 min-h-150px relative">
@@ -61,7 +57,7 @@ const ProductsTab = ({ onOpenProductForm, products }: ProductsTabProps) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button className="mr-4">✏️</button>
-                  <button>🗑️</button>
+                  <button onClick={() => onDelete(product.id)}>🗑️</button>
                 </td>
               </tr>
             ))}
