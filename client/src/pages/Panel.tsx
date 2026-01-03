@@ -124,7 +124,6 @@ export const Panel = () => {
 
                     setProducts((prev) => [newProduct, ...prev]);
 
-                    // alert("Product saved successfully!");
                     setIsProductFormOpen(false);
                   } catch (err) {
                     console.error(err);
