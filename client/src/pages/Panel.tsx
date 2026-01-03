@@ -7,14 +7,14 @@ import OrdersTab from "../components/Dashboard/OrdersTab/OrdersTab";
 import ReviewsTab from "../components/Dashboard/ReviewsTab/ReviewsTab";
 import { ProductForm } from "../components/Dashboard/ProductForm/ProductForm";
 import { createProduct, getProduct, deleteProduct } from "../api/products";
-import type { ProductFormData, ProductListItem } from "../types/Product";
+import type { ProductFormData, ProductsTabListItem } from "../types/Product";
 import slugify from "slugify";
 
 export const Panel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
-  const [products, setProducts] = useState<ProductListItem[]>([]);
+  const [products, setProducts] = useState<ProductsTabListItem[]>([]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -53,7 +53,7 @@ setProducts((prev) => prev.filter((p) => p.id !== productId))
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const data: { success: boolean; products: ProductListItem[] } = await getProduct();
+        const data: { success: boolean; products: ProductsTabListItem[] } = await getProduct();
         setProducts(data.products || []);
       } catch (err) {
         console.error("Failed to load products", err);

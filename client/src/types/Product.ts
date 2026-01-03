@@ -23,20 +23,21 @@ export interface ProductFormData {
     updatedAt: Date;
 }
 
-export interface ProductsTabProps {
-    onOpenProductForm: () => void;
-    products: ProductListItem[];
-    onDelete: (productId: string) => void;
-  }  
 
-export interface ProductListItem {
+export interface ProductFormProps {
+    onSubmit: (data: ProductFormData) => void;
+    initialData?: Partial<ProductFormData>;
+}
+
+export interface ProductsTabListItem {
     id: string;
     name: string;
     price: string;
     status: "active" | "inactive";
 }
 
-export interface ProductFormProps {
-    onSubmit: (data: ProductFormData) => void;
-    initialData?: Partial<ProductFormData>;
-}
+export interface ProductsTabProps {
+    onOpenProductForm: () => void;
+    products: ProductsTabListItem[];
+    onDelete: (productId: string) => void;
+  }  
