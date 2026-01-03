@@ -23,6 +23,13 @@ export interface ProductFormData {
     updatedAt: Date;
 }
 
+export interface ProductListItem {
+    id?: string;
+    name: string;
+    price: string;
+    status: "active" | "inactive";
+}
+
 export interface ProductFormProps {
     onSubmit: (data: ProductFormData) => void;
     initialData?: Partial<ProductFormData>;

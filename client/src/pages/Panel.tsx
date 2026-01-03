@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
 import Header from "../components/Dashboard/Header/Header";
 import DashboardOverview from "../components/Dashboard/DashboardOverview/DashboardOverview";
@@ -6,14 +6,15 @@ import ProductsTab from "../components/Dashboard/ProductsTab/ProductsTab";
 import OrdersTab from "../components/Dashboard/OrdersTab/OrdersTab";
 import ReviewsTab from "../components/Dashboard/ReviewsTab/ReviewsTab";
 import { ProductForm } from "../components/Dashboard/ProductForm/ProductForm";
-import { createProduct } from "../api/products";
-import type { ProductFormData } from "../types/Product";
+import { createProduct, getProduct } from "../api/products";
+import type { ProductFormData, ProductListItem } from "../types/Product";
 import slugify from "slugify";
 
 export const Panel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
+  const [products, setProducts] = useState<ProductListItem[]>([]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -29,7 +30,7 @@ export const Panel = () => {
       case "dashboard":
         return <DashboardOverview />;
       case "products":
-        return <ProductsTab onOpenProductForm={handleOpenProductForm} />;
+        return <ProductsTab products={products} onOpenProductForm={handleOpenProductForm} />;
       case "orders":
         return <OrdersTab />;
       case "reviews":
@@ -38,6 +39,19 @@ export const Panel = () => {
         return <DashboardOverview />;
     }
   };
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data: { success: boolean; products: ProductListItem[] } = await getProduct();
+        setProducts(data.products || []);
+      } catch (err) {
+        console.error("Failed to load products", err);
+      }
+    };
+  
+    loadProducts();
+  }, []);
 
   return (
     <>
@@ -108,7 +122,7 @@ export const Panel = () => {
                     // Send data with slug to backend
                     await createProduct({ ...data, slug });
 
-                    alert("Product saved successfully!");
+                    // alert("Product saved successfully!");
                     setIsProductFormOpen(false);
                   } catch (err) {
                     console.error(err);
