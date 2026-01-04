@@ -12,10 +12,10 @@ function App() {
     <>
       <Navbar onAuthClick={() => setShowAuthModal(true)} />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<Home />} />
 
-          <Route path="/panel" element={<AdminRoute />}></Route>
-          <Route path="/userProfile" element={<CustomerRoute />}></Route>
+          <Route path="/panel" element={<AdminRoute />} />
+          <Route path="/userProfile" element={<CustomerRoute />} />
       </Routes>
 
       <AuthModal
