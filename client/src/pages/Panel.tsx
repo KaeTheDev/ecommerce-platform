@@ -6,24 +6,92 @@ import ProductsTab from "../components/Dashboard/ProductsTab/ProductsTab";
 import OrdersTab from "../components/Dashboard/OrdersTab/OrdersTab";
 import ReviewsTab from "../components/Dashboard/ReviewsTab/ReviewsTab";
 import { ProductForm } from "../components/Dashboard/ProductForm/ProductForm";
-import { createProduct, getProduct, deleteProduct } from "../api/products";
-import type { ProductFormData, ProductsTabListItem } from "../types/Product";
+import { createProduct, getProduct, deleteProduct, getSingleProduct, updateProduct } from "../api/products";
+import type { Product, ProductTableItem } from "../types/Product";
 import slugify from "slugify";
 
 export const Panel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
-  const [products, setProducts] = useState<ProductsTabListItem[]>([]);
+  const [products, setProducts] = useState<ProductTableItem[]>([]);
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null); 
 
+
+  // TEMPORARY LOG OUT
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.href = "/";
   };
 
-  const handleOpenProductForm = () => setIsProductFormOpen(true);
-  const handleCloseProductForm = () => setIsProductFormOpen(false);
+  // Handle Edit
+  const handleEditClick = async(productId: string) => {
+    try {
+
+      // Fetch the FULL product data
+      const fullProduct = await getSingleProduct(productId); 
+
+      //Ensure dates are Date objects
+      const editData = {
+        ...fullProduct,
+        createdAt: fullProduct.createdAt ? new Date(fullProduct.createdAt) : new Date(),
+        updatedAt: fullProduct.updatedAt ? new Date(fullProduct.updatedAt) : new Date(),
+      };
+      setCurrentProduct(editData);
+      setIsProductFormOpen(true);
+    } catch(err) {
+      console.error("Error fetching product:", err);
+      alert("Failed to load product details")
+    }
+  };
+
+  // Handle Submit
+  const handleSubmitProduct = async(data: Product) => {
+    const slug = slugify(data.name, { lower: true, strict: true });
+
+    if(currentProduct) {
+      // EDIT - update backend
+      await updateProduct(currentProduct.id, { ...data, slug });
+
+      // Update the lightweight table data
+      const updatedTableItem: ProductTableItem = {
+        id: currentProduct.id,
+        name: data.name,
+        price: data.price,
+        status: data.status,
+      };
+
+      setProducts((prev) =>
+        prev.map((p) => (p.id === currentProduct.id ? updatedTableItem: p))
+      );
+    } else {
+      // Create
+      const newProduct = await createProduct({ ...data, slug });
+
+      // Add to table with lightweight data
+      const newTableItem: ProductTableItem = {
+        id: newProduct.id,
+        name: newProduct.name,
+        price: newProduct.price,
+        status: newProduct.status,
+      };
+      setProducts((prev) => [newTableItem, ...prev]);
+    }
+
+    setIsProductFormOpen(false);
+    setCurrentProduct(null);
+  };
+
+  const handleOpenProductForm = () => {
+    setCurrentProduct(null);
+    setIsProductFormOpen(true);
+  }
+
+  const handleCloseProductForm = () => {
+    setCurrentProduct(null);
+    setIsProductFormOpen(false);
+  }
 
   const handleDeleteProduct = async (productId: string) => {
     try {
@@ -40,7 +108,7 @@ setProducts((prev) => prev.filter((p) => p.id !== productId))
       case "dashboard":
         return <DashboardOverview />;
       case "products":
-        return <ProductsTab onDelete={handleDeleteProduct} products={products} onOpenProductForm={handleOpenProductForm} />;
+        return <ProductsTab onEdit={handleEditClick} onDelete={handleDeleteProduct} products={products} onOpenProductForm={handleOpenProductForm} />;
       case "orders":
         return <OrdersTab />;
       case "reviews":
@@ -53,7 +121,7 @@ setProducts((prev) => prev.filter((p) => p.id !== productId))
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const data: { success: boolean; products: ProductsTabListItem[] } = await getProduct();
+        const data: { success: boolean; products: ProductTableItem[] } = await getProduct();
         setProducts(data.products || []);
       } catch (err) {
         console.error("Failed to load products", err);
@@ -121,25 +189,8 @@ setProducts((prev) => prev.filter((p) => p.id !== productId))
             {/* ProductForm */}
             <div className="max-h-[calc(95vh-80px)] overflow-y-auto p-6">
               <ProductForm
-                onSubmit={async (data: ProductFormData) => {
-                  try {
-                    // Generate slug from product name
-                    const slug = slugify(data.name, {
-                      lower: true,
-                      strict: true,
-                    });
-
-                    // Send data with slug to backend
-                    const newProduct = await createProduct({ ...data, slug });
-
-                    setProducts((prev) => [newProduct, ...prev]);
-
-                    setIsProductFormOpen(false);
-                  } catch (err) {
-                    console.error(err);
-                    alert("Error saving product");
-                  }
-                }}
+                initialData={currentProduct ?? undefined}
+                onSubmit={handleSubmitProduct}
               />
             </div>
           </div>

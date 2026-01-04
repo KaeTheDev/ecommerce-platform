@@ -1,4 +1,5 @@
-export interface ProductFormData {
+export interface Product{
+    id: string;
     name: string;
     subtitle: string;
     category: 'ring' | 'bracelet' | 'watch' | 'necklace' | 'earrings';
@@ -23,21 +24,21 @@ export interface ProductFormData {
     updatedAt: Date;
 }
 
-
-export interface ProductFormProps {
-    onSubmit: (data: ProductFormData) => void;
-    initialData?: Partial<ProductFormData>;
-}
-
-export interface ProductsTabListItem {
+export interface ProductTableItem {
     id: string;
     name: string;
     price: string;
-    status: "active" | "inactive";
+    status: 'active' | 'inactive';
+}
+
+export interface ProductFormProps {
+    onSubmit: (data: Product) => void;
+    initialData?: Partial<Product>;
 }
 
 export interface ProductsTabProps {
     onOpenProductForm: () => void;
-    products: ProductsTabListItem[];
+    products: ProductTableItem[];
     onDelete: (productId: string) => void;
+    onEdit: (productId: string) => void;
   }  

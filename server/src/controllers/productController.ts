@@ -24,20 +24,57 @@ export const getProducts = async (req: Request, res: Response) => {
 };
 
 // GET a single product -- findOne
+// export const getAProduct = async (req: Request, res: Response) => {
+//   try {
+//     // 1. Query MongoDB for a product
+//     const product = await Product.findById(req.params.id);
+
+//     if (!product) {
+//       return res.status(401).json({ error: "Product does not exist" });
+//     }
+//     res.json({
+//       success: true,
+//       product,
+//     });
+//   } catch (error: any) {
+//     // 3. Handle errors
+//     res.status(500).json({ success: false, error: error.message });
+//   }
+// };
+
 export const getAProduct = async (req: Request, res: Response) => {
   try {
-    // 1. Query MongoDB for a product
     const product = await Product.findById(req.params.id);
-
     if (!product) {
-      return res.status(401).json({ error: "Product does not exist" });
+      return res.status(404).json({ error: "Product does not exist" });
     }
+    
+    // Return the FULL product object
     res.json({
       success: true,
-      product,
+      product: {
+        id: product._id,
+        name: product.name,
+        subtitle: product.subtitle,
+        category: product.category,
+        price: product.price,
+        status: product.status,
+        primaryImageUrl: product.primaryImageUrl,
+        galleryImageUrls: product.galleryImageUrls,
+        sizes: product.sizes,
+        material: product.material,
+        gemstoneType: product.gemstoneType,
+        weightPreset: product.weightPreset,
+        style: product.style,
+        description: product.description,
+        specsFromAttributes: product.specsFromAttributes,
+        sku: product.sku,
+        slug: product.slug,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      },
     });
   } catch (error: any) {
-    // 3. Handle errors
     res.status(500).json({ success: false, error: error.message });
   }
 };

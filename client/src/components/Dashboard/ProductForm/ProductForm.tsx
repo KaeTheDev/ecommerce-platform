@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import type { ProductFormData, ProductFormProps } from "../../../types/Product";
+import { useState, useEffect, useRef } from "react";
+import type { Product, ProductFormProps } from "../../../types/Product";
 import { CATEGORY_CONFIG, buildSku, getCategoryDefaults } from "../../../constants/productConfig";
 import { uploadImage } from "../../../api/uploadImage";
 
@@ -7,7 +7,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   onSubmit,
   initialData,
 }) => {
-  const [formData, setFormData] = useState<ProductFormData>({
+  const isInitialLoad = useRef(true);
+
+  const [formData, setFormData] = useState<Product>({
+    id: "",
     name: "",
     subtitle: "",
     category: "ring",
@@ -28,18 +31,55 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     updatedAt: new Date(),
   });
 
-  const [primaryPreview, setPrimaryPreview] = useState<string | null>(
-    initialData?.primaryImageUrl ?? null
-  );
-
-  const [galleryPreviews, setGalleryPreviews] = useState<string[]>(
-    initialData?.galleryImageUrls ?? []
-  );
-
+  const [primaryPreview, setPrimaryPreview] = useState<string | null>(null);
+  const [galleryPreviews, setGalleryPreviews] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
+  // Load initial data when editing
+  useEffect(() => {
+
+    if (initialData) {
+      isInitialLoad.current = true;
+      
+      setFormData({
+        id: initialData.id || "",
+        name: initialData.name || "",
+        subtitle: initialData.subtitle || "",
+        category: initialData.category || "ring",
+        price: initialData.price || "",
+        status: initialData.status || "active",
+        primaryImageUrl: initialData.primaryImageUrl || "",
+        galleryImageUrls: initialData.galleryImageUrls || [],
+        sizes: initialData.sizes || [],
+        material: initialData.material || "",
+        gemstoneType: initialData.gemstoneType || "",
+        weightPreset: initialData.weightPreset || "",
+        style: initialData.style || "",
+        description: initialData.description || "",
+        specsFromAttributes: initialData.specsFromAttributes || false,
+        sku: initialData.sku || "",
+        slug: initialData.slug || "",
+        createdAt: initialData.createdAt 
+          ? (initialData.createdAt instanceof Date ? initialData.createdAt : new Date(initialData.createdAt))
+          : new Date(),
+        updatedAt: initialData.updatedAt 
+          ? (initialData.updatedAt instanceof Date ? initialData.updatedAt : new Date(initialData.updatedAt))
+          : new Date(),
+      });
+
+      setPrimaryPreview(initialData.primaryImageUrl || null);
+      setGalleryPreviews(initialData.galleryImageUrls || []);
+      
+      setTimeout(() => {
+        isInitialLoad.current = false;
+      }, 100);
+    } else {
+      isInitialLoad.current = false;
+    }
+  }, [initialData]);
+
   const handleInputChange =
-    (field: keyof ProductFormData) =>
+    (field: keyof Product) =>
     (
       e: React.ChangeEvent<
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -48,21 +88,33 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setFormData({ ...formData, [field]: e.target.value as any });
     };
 
-  const handleCategoryChange = (category: ProductFormData["category"]) => {
+  const handleCategoryChange = (category: Product["category"]) => {
     const defaults = getCategoryDefaults(category);
-    setFormData((prev) => ({
-      ...prev,
-      category,
-      ...defaults,
-       careTemplateKey: defaults.careTemplateKey || "",
-    }));
+    
+    if (isInitialLoad.current && initialData) {
+      // During initial load with edit data, just change category without resetting
+      setFormData((prev) => ({
+        ...prev,
+        category,
+      }));
+    } else {
+      // Normal behavior: apply defaults
+      setFormData((prev) => ({
+        ...prev,
+        category,
+        ...defaults,
+        careTemplateKey: defaults.careTemplateKey || "",
+      }));
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(formData);
+    
     if (!initialData) {
       setFormData({
+        id: "",
         name: "",
         subtitle: "",
         category: "ring",
@@ -78,9 +130,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         description: "",
         specsFromAttributes: false,
         sku: "",
+        slug: "",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+      setPrimaryPreview(null);
+      setGalleryPreviews([]);
     }
   };
 
@@ -90,15 +145,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Local Preview
     const previewUrl = URL.createObjectURL(file);
     setPrimaryPreview(previewUrl);
 
     try {
       setIsUploading(true);
-
       const uploadedUrl = await uploadImage(file);
-
       setFormData((prev) => ({
         ...prev,
         primaryImageUrl: uploadedUrl,
@@ -118,8 +170,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     if (!files || files.length === 0) return;
 
     const fileArray = Array.from(files);
-
-    // Show local previews immediately
     const previews = fileArray.map((file) => URL.createObjectURL(file));
     setGalleryPreviews((prev) => [...prev, ...previews]);
 
@@ -142,24 +192,26 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     }
   };
 
-  // Dynamically build SKU based on category + gemstone type
+  // Auto-generate SKU only for new products
   useEffect(() => {
-    const newSku = buildSku(formData.category, formData.gemstoneType);
-    setFormData((prev) => ({ ...prev, sku: newSku }));
-  }, [formData.category, formData.gemstoneType]);
+    if (!initialData && !isInitialLoad.current) {
+      const newSku = buildSku(formData.category, formData.gemstoneType);
+      setFormData((prev) => ({ ...prev, sku: newSku }));
+    } 
+  }, [formData.category, formData.gemstoneType, initialData]);
 
-  
-  const config =
-    CATEGORY_CONFIG[formData.category as keyof typeof CATEGORY_CONFIG];
+  const config = CATEGORY_CONFIG[formData.category as keyof typeof CATEGORY_CONFIG];
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-sm">
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* HEADER */}
         <div className="px-6">
-          <h2 className="text-md text-gray-900">Create New Product</h2>
+          <h2 className="text-md text-gray-900">
+            {initialData ? "Edit Product" : "Create New Product"}
+          </h2>
           <p className="text-sm text-gray-500">
-            Add a new item to your luxury jewelry collection
+            {initialData ? "Update" : "Add a new item to"} your luxury jewelry collection
           </p>
         </div>
 
@@ -376,9 +428,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             <select
               value={formData.category}
               onChange={(e) =>
-                handleCategoryChange(
-                  e.target.value as ProductFormData["category"]
-                )
+                handleCategoryChange(e.target.value as Product["category"])
               }
               className="w-full px-4 py-3 border rounded-xl"
             >
@@ -390,7 +440,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             </select>
           </div>
 
-          {/* MULTI-SIZE SELECTION FOR ALL CATEGORIES */}
+          {/* SIZES */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Available Sizes <span className="text-red-500">*</span>
@@ -428,8 +478,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             )}
             {formData.sizes.length > 0 && (
               <p className="text-xs text-green-600 mt-2">
-                Selected: {formData.sizes.join(", ")} ({formData.sizes.length}{" "}
-                sizes)
+                Selected: {formData.sizes.join(", ")} ({formData.sizes.length} sizes)
               </p>
             )}
           </div>
@@ -445,7 +494,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               className="w-full px-4 py-3 border rounded-xl"
             >
               {config.materials.map((m) => (
-                <option key={m}>{m}</option>
+                <option key={m} value={m}>{m}</option>
               ))}
             </select>
           </div>
@@ -462,7 +511,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 className="w-full px-4 py-3 border rounded-xl"
               >
                 {config.gemstoneTypes.map((g) => (
-                  <option key={g}>{g}</option>
+                  <option key={g} value={g}>{g}</option>
                 ))}
               </select>
             </div>
@@ -477,7 +526,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 className="w-full px-4 py-3 border rounded-xl"
               >
                 {config.styles.map((s) => (
-                  <option key={s}>{s}</option>
+                  <option key={s} value={s}>{s}</option>
                 ))}
               </select>
             </div>
@@ -494,39 +543,24 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               className="w-full px-4 py-3 border rounded-xl"
             >
               {config.weights.map((w) => (
-                <option key={w}>{w}</option>
+                <option key={w} value={w}>{w}</option>
               ))}
             </select>
           </div>
 
-          {/* PREVIEW SECTION */}
-          <p className="text-sm font-medium -mb-1.5">
-            {" "}
-            Auto-Generated Information
-          </p>
+          {/* PREVIEW */}
+          <p className="text-sm font-medium -mb-1.5">Auto-Generated Information</p>
           <p className="text-sm">Automatically compiled from your selections</p>
           <h4 className="text-sm font-bold">Specifications Preview</h4>
           <div className="border border-gray-200 rounded-xl p-4 bg-gray-50 space-y-2">
             <div className="text-sm text-gray-700 space-y-1">
-              <div>
-                <strong>Category:</strong> {formData.category}
-              </div>
-              <div>
-                <strong>Material:</strong> {formData.material}
-              </div>
-              <div>
-                <strong>Gemstone Type:</strong> {formData.gemstoneType}
-              </div>
-              <div>
-                <strong>Style:</strong> {formData.style}
-              </div>
-              <div>
-                <strong>Weight:</strong> {formData.weightPreset}
-              </div>
+              <div><strong>Category:</strong> {formData.category}</div>
+              <div><strong>Material:</strong> {formData.material}</div>
+              <div><strong>Gemstone Type:</strong> {formData.gemstoneType}</div>
+              <div><strong>Style:</strong> {formData.style}</div>
+              <div><strong>Weight:</strong> {formData.weightPreset}</div>
               {formData.sizes.length > 0 && (
-                <div>
-                  <strong>Size:</strong> {formData.sizes.join(", ")}
-                </div>
+                <div><strong>Size:</strong> {formData.sizes.join(", ")}</div>
               )}
             </div>
           </div>
@@ -556,14 +590,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           <button
             type="submit"
             disabled={isUploading || !formData.primaryImageUrl}
-            className="px-6 py-3 rounded-xl bg-black text-white hover:bg-gray-900 hover:shadow-lg hover:shadow-black/20 hover:scale-[1.02] border border-transparent hover:border-gray-200 transition-all duration-200"
+            className="px-6 py-3 rounded-xl bg-black text-white hover:bg-gray-900 transition-all duration-200"
           >
-            {isUploading ? "Uploading..." : "Save Product"}
+            {isUploading ? "Uploading..." : initialData ? "Update Product" : "Save Product"}
           </button>
 
           <button
             type="button"
-            className="px-6 py-3 rounded-xl border border-gray-300 bg-white text-black hover:border-black hover:shadow-md hover:shadow-gray-900/10 hover:scale-[1.02] transition-all duration-200"
+            className="px-6 py-3 rounded-xl border border-gray-300 bg-white text-black hover:border-black transition-all duration-200"
           >
             Preview Product Page
           </button>

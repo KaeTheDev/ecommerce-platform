@@ -1,7 +1,7 @@
 import type { ProductsTabProps } from "../../../types/Product";
 
 
-const ProductsTab = ({ onOpenProductForm, products, onDelete }: ProductsTabProps) => {
+const ProductsTab = ({ onOpenProductForm, products, onDelete, onEdit }: ProductsTabProps) => {
   return (
     <>
       <div className="p-8 min-h-150px relative">
@@ -56,8 +56,9 @@ const ProductsTab = ({ onOpenProductForm, products, onDelete }: ProductsTabProps
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <button className="mr-4">✏️</button>
-                  <button onClick={() => onDelete(product.id)}>🗑️</button>
+                  <button onClick={() => onEdit(product.id)} 
+                    className="mr-4 hover:scale-110 transition-transform">✏️</button>
+                  <button className="hover:scale-110 transition-transform" onClick={() => onDelete(product.id)}>🗑️</button>
                 </td>
               </tr>
             ))}
