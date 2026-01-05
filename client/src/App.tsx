@@ -3,7 +3,11 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import Navbar from "./components/Navbar/Navbar";
 import { AuthModal } from "./components/Auth/AuthModal/AuthModal";
-import { AdminRoute, CustomerRoute } from "./components/Routing/ProtectedRoute/ProtectedRoute";
+import {
+  AdminRoute,
+  CustomerRoute,
+} from "./components/Routing/AdminRoute/AdminRoute";
+import { LogoutProvider } from "./contexts/LogoutContext";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -11,12 +15,15 @@ function App() {
   return (
     <>
       <Navbar onAuthClick={() => setShowAuthModal(true)} />
-      <Routes>
-        <Route path="/" element={<Home />} />
+
+      <LogoutProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
 
           <Route path="/panel" element={<AdminRoute />} />
           <Route path="/userProfile" element={<CustomerRoute />} />
-      </Routes>
+        </Routes>
+      </LogoutProvider>
 
       <AuthModal
         isOpen={showAuthModal}

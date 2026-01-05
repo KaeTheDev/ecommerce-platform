@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import type { LoginFormData, LoginFormProps } from "../../types/Login";
+import type { LoginFormData, LoginFormProps } from "../../../types/Login";
 
 export const LoginForm: React.FC<LoginFormProps> =({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState<LoginFormData>({

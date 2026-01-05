@@ -5,21 +5,13 @@ import ProfileOverview from "../components/UserProfile/ProfileOverview/ProfileOv
 import MyOrders from "../components/UserProfile/MyOrders/MyOrders";
 import MyReviews from "../components/UserProfile/MyReviews/MyReviews";
 import AccountSettings from "../components/UserProfile/AccountSettings/AccountSettings";
-import ProfileSidebar from "../components/UserProfile/Sidebar/ProfileSidebar";
+import ProfileSidebar from "../components/UserProfile/ProfileSidebar/ProfileSidebar";
 
 export const UserProfile = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const activeTab = searchParams.get("tab") || "My Profile";
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-
-    // Temporary LOG OUT: TODO: Create Log Out button in sidebar
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/';
-    };
 
     // Function to change tabs
     const setActiveTab = (tab: string) => {
@@ -67,13 +59,6 @@ export const UserProfile = () => {
             </main>
         </div>
        </div>
-
-       <button
-        onClick={handleLogout}
-        className="fixed top-3 right-20 p-3 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 z-50"
-      >
-        Log Out
-      </button>
         </>
     )
 }

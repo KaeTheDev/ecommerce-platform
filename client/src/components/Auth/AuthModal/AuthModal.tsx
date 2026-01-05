@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
-import type { RegistrationFormData } from "../../types/Registration";
+import type { RegistrationFormData } from "../../../types/Registration";
 import { useNavigate } from "react-router-dom";
-import type { LoginFormData } from "../../types/Login";
+import type { LoginFormData } from "../../../types/Login";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -78,7 +78,6 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('User Logged In', data);
 
         // Save JWT to localStorage
         localStorage.setItem('token', data.token);
