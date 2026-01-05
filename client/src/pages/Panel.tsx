@@ -25,13 +25,6 @@ export const Panel = () => {
     setSearchParams({ tab });
   };
 
-  // TEMPORARY LOG OUT
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/";
-  };
-
   // Handle Edit
   const handleEditClick = async(productId: string) => {
     try {
@@ -199,14 +192,6 @@ export const Panel = () => {
           </div>
         </div>
       )}
-
-      {/* TEMPORARY LOG OUT BUTTON */}
-      <button
-        onClick={handleLogout}
-        className="fixed top-3 right-20 p-3 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 z-50"
-      >
-        Log Out
-      </button>
     </>
   );
 };

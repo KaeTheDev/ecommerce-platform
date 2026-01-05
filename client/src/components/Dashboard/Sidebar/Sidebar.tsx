@@ -1,3 +1,5 @@
+import { useLogout } from "../../../contexts/LogoutContext";
+
 interface SidebarProps {
     activeTab: string;
     setActiveTab: (tab: string) => void;
@@ -6,6 +8,9 @@ interface SidebarProps {
   }
   
   const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }: SidebarProps) => {
+
+    const { requestLogout } = useLogout();
+    
     return (
       <div 
         className={`w-64 shrink-0 bg-white shadow-lg border flex flex-col h-screen z-40 
@@ -35,6 +40,12 @@ interface SidebarProps {
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
+                 <button
+          className="w-full text-left py-3 px-4 rounded-xl transition-all text-red-700 hover:bg-red-200"
+          onClick={requestLogout}
+        >
+          Log Out
+        </button>
         </div>
       </div>
     );
