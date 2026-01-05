@@ -5,7 +5,7 @@ interface SidebarProps {
   setIsOpen: (open: boolean) => void;
 }
 
-const Sidebar = ({
+const ProfileSidebar = ({
   activeTab,
   setActiveTab,
   isOpen,
@@ -19,7 +19,7 @@ const Sidebar = ({
             } lg:translate-x-0`}
     >
       <div className="flex-1 p-6 mt-7 space-y-2 overflow-auto">
-        {["profile", "my orders", "my reviews", "account settings"].map(
+        {["My Profile", "My Orders", "My Reviews", "Account Settings"].map(
           (tab) => (
             <button
               key={tab}
@@ -42,4 +42,4 @@ const Sidebar = ({
   );
 };
 
-export default Sidebar;
+export default ProfileSidebar;
