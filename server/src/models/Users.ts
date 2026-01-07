@@ -7,6 +7,7 @@ export interface IUser extends Document {
     email: string;
     passwordHash: string;
     role: 'admin' | 'customer';
+    memberSince: Date;
 }
 
 // Mongoose Schema - enforces this shape at DB level
@@ -15,7 +16,8 @@ const userSchema = new Schema<IUser>({
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
-    role: { type: String, required: true, enum: ['admin', 'customer']}
+    role: { type: String, required: true, enum: ['admin', 'customer']},
+    memberSince: { type: Date, default: Date.now }
 });
 
 // Mongoose Model - typed constructor that gets imported elsewhere
