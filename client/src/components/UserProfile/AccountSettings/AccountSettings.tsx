@@ -34,7 +34,7 @@ const AccountSettings = () => {
         <span className="text-gray-500">******</span>
       </div>
 
-      <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4 mt-4 border-1 border-red-600">
+      <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4 mt-4 border border-red-600">
         <p className="text-sm text-gray-500">Danger Zone</p>
         <p className="text-sm text-gray-500">
           Permanently delete your account and all associated data
