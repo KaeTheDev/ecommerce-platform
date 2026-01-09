@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-// GET all users (admin only)
+// GET all users
 
 // GET single user by ID
 

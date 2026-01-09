@@ -6,3 +6,7 @@ export interface User {
     role: 'admin' | 'customer';
     memberSince: string;
 }
+
+export interface ProfileAccountProps {
+    user: User;
+}
