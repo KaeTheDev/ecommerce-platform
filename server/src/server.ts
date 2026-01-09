@@ -1,8 +1,11 @@
+// Include custom type definitions for Express Request
+// so that req.userId and req.userRole are recognized by TypeScript
+///  <reference path="./types/express.d.ts" />
+
 // Import Express library + TypeScript types for type safety
 import express, { Express, Request, Response } from "express";
 // Import dotenv library
 import dotenv from "dotenv";
-
 // Import mongoose
 import mongoose from "mongoose";
 
@@ -22,7 +25,7 @@ import orderRoutes from './routes/orders';
 // Import Review Routes
 import reviewRoutes from './routes/reviews';
 // Import User Routes
-import userRoutes from './routes/users';
+import userRoutes from './routes/users.routes';
 // Import Auth Routes
 import authRoutes from './routes/auth';
 

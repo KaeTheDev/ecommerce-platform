@@ -18,3 +18,10 @@ https://dev.to/bybydev/how-to-slugify-a-string-in-javascript-4o9n
 
 https://jasonwatmore.com/vanilla-js-slugify-a-string-in-javascript
 
+https://blog.logrocket.com/extend-express-request-object-typescript/
+
+https://deadsimplechat.com/blog/how-to-set-up-typescript-with-express-and-node-js/
+
+https://blog.stackademic.com/create-a-backend-application-using-express-typescript-and-handle-authentication-1f67be81da60
+
+https://jwtsecrets.com/blog/jwt-authentication-nodejs-tutorial
