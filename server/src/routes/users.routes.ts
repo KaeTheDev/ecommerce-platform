@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from "express";
+import express, { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { getCurrentUser } from "../controllers/userController";
 

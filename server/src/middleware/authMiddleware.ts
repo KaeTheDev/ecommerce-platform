@@ -28,11 +28,12 @@ export const authMiddleware = (
 
         // Attach userId and role to the request object
         req.userId = decoded.userId;
-        req.userId = decoded.role;
+        req.userRole = decoded.role;
 
         // Call next middleware/controller
         next();
-    } catch(error) {
+    } catch(error) { 
+        console.error("Auth middleware error:", error);
         return res.status(401).json({ error: "Unauthorized: Invalid token" });
     }
 };

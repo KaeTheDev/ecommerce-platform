@@ -1,4 +1,11 @@
-const AccountSettings = () => {
+import type { User } from "../../../types/User";
+
+interface AccountSettingsProps {
+  user: User;
+}
+
+
+const AccountSettings = ({ user }: AccountSettingsProps) => {
   return (
     <>
       <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4">
