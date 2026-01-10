@@ -4,7 +4,6 @@ interface AccountSettingsProps {
   user: User;
 }
 
-
 const AccountSettings = ({ user }: AccountSettingsProps) => {
   return (
     <>
@@ -14,18 +13,22 @@ const AccountSettings = ({ user }: AccountSettingsProps) => {
           <p className="text-sm text-gray-500">Edit</p>
         </div>
         <div className="flex flex-row">
-          <div className="flex flex-col mr-1">ICON</div>
+          <div className="w-12 h-12 bg-gray-200 rounded-md mr-2"></div>
+
           <div className="flex flex-col">
             <p className="text-sm text-gray-500">Full Name</p>
-            <p className="text-sm text-gray-500">Sophia Laurent</p>
+            <p className="text-sm text-gray-500">
+              {user.firstName} {user.lastName}
+            </p>
           </div>
         </div>
 
         <div className="flex flex-row">
-          <div className="flex flex-col mr-1">ICON</div>
+          <div className="w-12 h-12 bg-gray-200 rounded-md mr-2"></div>
+
           <div className="flex flex-col">
             <p className="text-sm text-gray-500">Email Address</p>
-            <p className="text-sm text-gray-500">sophia.laurent@example.com</p>
+            <p className="text-sm text-gray-500">{user.email}</p>
           </div>
         </div>
       </div>
