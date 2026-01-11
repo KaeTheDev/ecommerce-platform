@@ -8,6 +8,7 @@ import {
   CustomerRoute,
 } from "./components/Routing/AdminRoute/AdminRoute";
 import { LogoutProvider } from "./contexts/LogoutContext";
+import { DeleteAccountProvider } from "./contexts/DeleteContext";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -16,19 +17,21 @@ function App() {
     <>
       <Navbar onAuthClick={() => setShowAuthModal(true)} />
 
-      <LogoutProvider>
+    <DeleteAccountProvider>
+    <LogoutProvider>
         <Routes>
           <Route path="/" element={<Home />} />
 
           <Route path="/panel" element={<AdminRoute />} />
           <Route path="/userProfile" element={<CustomerRoute />} />
         </Routes>
-      </LogoutProvider>
 
-      <AuthModal
+        <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
       />
+      </LogoutProvider>
+    </DeleteAccountProvider>
     </>
   );
 }

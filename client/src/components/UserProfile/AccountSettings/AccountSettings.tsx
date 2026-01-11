@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDeleteAccount } from "../../../contexts/DeleteContext";
 import type { User } from "../../../types/User";
 
 interface AccountSettingsProps {
@@ -123,6 +124,10 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
       console.error("Password update failed:", err);
     }
   };
+
+  /* ================= DELETE ACCOUNT ================= */
+
+  const { requestDeleteAccount } = useDeleteAccount();
 
   return (
     <>
@@ -287,6 +292,22 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
           </div>
         )}
       </div>
+
+      {/* Delete */}
+
+
+      <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4 mt-4 border border-red-600">
+        <p className="text-sm text-gray-500">Danger Zone</p>
+        <p className="text-sm text-gray-500">
+          Permanently delete your account and all associated data
+        </p>
+        <button className="self-start bg-red-100 text-red-600 text-sm px-3 py-1.5 rounded-lg hover:bg-red-200 transition"
+        onClick={requestDeleteAccount}
+        >
+          Delete Account
+        </button>
+      </div>
+
     </>
   );
 };

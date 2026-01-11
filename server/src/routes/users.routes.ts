@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { getCurrentUser, updateCurrentUser, updateUserPassword } from "../controllers/userController";
+import { deleteUserAccount, getCurrentUser, updateCurrentUser, updateUserPassword } from "../controllers/userController";
 
 const router: Router = express.Router();
 
@@ -12,5 +12,8 @@ router.patch("/me", authMiddleware, updateCurrentUser);
 
 // Protected route = only logged-in users: Update Password
 router.patch("/me/password", authMiddleware, updateUserPassword);
+
+// Protected route = only logged-in users: Delete User
+router.delete("/me", authMiddleware, deleteUserAccount);
 
 export default router;

@@ -106,3 +106,23 @@ export const updateUserPassword = async(req: Request, res: Response) => {
 };
 
 // DELETE /api/users/me
+export const deleteUserAccount = async(req: Request, res: Response) => {
+    try {
+        if(!req.userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+
+        const user = await User.findByIdAndDelete(req.userId);
+
+        if(!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({
+            message: "Account deleted successfully",
+        });
+
+    } catch(error) {
+        res.status(500).json({ message: "Failed to delete user profile" });
+    }
+};
