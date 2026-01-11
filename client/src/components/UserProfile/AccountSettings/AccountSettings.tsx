@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { User } from "../../../types/User";
 
 interface AccountSettingsProps {
@@ -7,38 +8,41 @@ interface AccountSettingsProps {
 }
 
 const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
+  const navigate = useNavigate();
+
+  /* ================= PROFILE ================= */
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   const [profileForm, setProfileForm] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
-    email: user.email
+    email: user.email,
   });
 
   const startEditing = () => {
     setProfileForm({
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email
+      email: user.email,
     });
     setIsEditingProfile(true);
   };
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileForm(prev => ({
+    setProfileForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const isDirty = 
-  profileForm.firstName !== user.firstName ||
-  profileForm.lastName !== user.lastName ||
-  profileForm.email !== user.email;
+  const isDirty =
+    profileForm.firstName !== user.firstName ||
+    profileForm.lastName !== user.lastName ||
+    profileForm.email !== user.email;
 
-  const handleSaveProfile = async() => {
+  const handleSaveProfile = async () => {
     const token = localStorage.getItem("token");
-    if(!token) return;
+    if (!token) return;
 
     try {
       const res = await fetch("/api/users/me", {
@@ -52,29 +56,83 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
 
       const updatedUser = await res.json();
 
-      if(!res.ok) {
+      if (!res.ok) {
         throw new Error(updatedUser.message || "Failed to update profile");
       }
 
       onUserUpdate(updatedUser);
       setIsEditingProfile(false);
-      // TODO Later: show success toast or message
-    } catch(err) {
-      console.error("Updated failed:", err);
+    } catch (err) {
+      console.error("Profile update failed:", err);
+    }
+  };
+
+  /* ================= PASSWORD ================= */
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
+
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const passwordMismatch =
+    passwordForm.newPassword !== passwordForm.confirmPassword;
+
+  const passwordDirty =
+    passwordForm.currentPassword ||
+    passwordForm.newPassword ||
+    passwordForm.confirmPassword;
+
+  const handleSavePassword = async () => {
+    if (passwordMismatch) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const res = await fetch("/api/users/me/password", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword: passwordForm.currentPassword,
+          newPassword: passwordForm.newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to update password");
+      }
+
+      // 🔐 LOG OUT AFTER PASSWORD CHANGE
+      localStorage.removeItem("token");
+      navigate("/");
+    } catch (err) {
+      console.error("Password update failed:", err);
     }
   };
 
   return (
     <>
- <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4">
-        <div className="flex flex-row justify-between items-center">
+      {/* ================= PROFILE ================= */}
+      <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4">
+        <div className="flex justify-between items-center">
           <p className="text-sm text-gray-500">Profile Information</p>
 
           {!isEditingProfile ? (
-            <button
-              className="text-sm text-indigo-600"
-              onClick={startEditing}
-            >
+            <button className="text-sm text-indigo-600" onClick={startEditing}>
               Edit
             </button>
           ) : (
@@ -90,7 +148,6 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
         {/* Full Name */}
         <div>
           <p className="text-sm text-gray-500">Full Name</p>
-
           {isEditingProfile ? (
             <div className="flex gap-2 mt-1">
               <input
@@ -98,14 +155,12 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
                 value={profileForm.firstName}
                 onChange={handleProfileChange}
                 className="border rounded-lg p-2 w-full"
-                placeholder="First name"
               />
               <input
                 name="lastName"
                 value={profileForm.lastName}
                 onChange={handleProfileChange}
                 className="border rounded-lg p-2 w-full"
-                placeholder="Last name"
               />
             </div>
           ) : (
@@ -118,7 +173,6 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
         {/* Email */}
         <div>
           <p className="text-sm text-gray-500">Email Address</p>
-
           {isEditingProfile ? (
             <input
               name="email"
@@ -131,19 +185,106 @@ const AccountSettings = ({ user, onUserUpdate }: AccountSettingsProps) => {
           )}
         </div>
 
-        {/* Save */}
         {isEditingProfile && (
-          <button 
-          onClick={handleSaveProfile}
-          disabled={!isDirty}
-          className={`self-start text-sm px-4 py-2 rounded-lg transition
-            ${
-              isDirty
-                ? "bg-black text-white hover:bg-gray-800"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}>
+          <button
+            onClick={handleSaveProfile}
+            disabled={!isDirty}
+            className={`self-start text-sm px-4 py-2 rounded-lg transition
+              ${
+                isDirty
+                  ? "bg-black text-white hover:bg-gray-800"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+          >
             Save Changes
           </button>
+        )}
+      </div>
+
+      {/* ================= PASSWORD ================= */}
+      <div className="flex flex-col bg-white p-4 rounded-2xl shadow w-full gap-4 mt-4">
+        <div className="flex justify-between items-center">
+          <p className="text-sm text-gray-500">Password</p>
+
+          {!isEditingPassword ? (
+            <button
+              className="text-sm text-indigo-600"
+              onClick={() => setIsEditingPassword(true)}
+            >
+              Change
+            </button>
+          ) : (
+            <button
+              className="text-sm text-gray-500"
+              onClick={() => {
+                setIsEditingPassword(false);
+                setPasswordForm({
+                  currentPassword: "",
+                  newPassword: "",
+                  confirmPassword: "",
+                });
+              }}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
+
+        {!isEditingPassword ? (
+          <>
+            <p className="text-sm text-gray-500">
+              Update your password to keep your account secure
+            </p>
+            <span className="text-gray-500">******</span>
+          </>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <input
+              type="password"
+              name="currentPassword"
+              placeholder="Current password"
+              value={passwordForm.currentPassword}
+              onChange={handlePasswordChange}
+              className="border rounded-lg p-2"
+            />
+
+            <input
+              type="password"
+              name="newPassword"
+              placeholder="New password"
+              value={passwordForm.newPassword}
+              onChange={handlePasswordChange}
+              className="border rounded-lg p-2"
+            />
+
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm new password"
+              value={passwordForm.confirmPassword}
+              onChange={handlePasswordChange}
+              className="border rounded-lg p-2"
+            />
+
+            {passwordMismatch && (
+              <p className="text-sm text-red-600">
+                Passwords do not match
+              </p>
+            )}
+
+            <button
+              onClick={handleSavePassword}
+              disabled={!passwordDirty || passwordMismatch}
+              className={`self-start text-sm px-4 py-2 rounded-lg transition
+                ${
+                  passwordDirty && !passwordMismatch
+                    ? "bg-black text-white hover:bg-gray-800"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+            >
+              Save Password
+            </button>
+          </div>
         )}
       </div>
     </>

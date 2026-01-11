@@ -66,5 +66,43 @@ export const updateCurrentUser = async(req: Request, res: Response) => {
 };
 
 // PATCH /api/users/me/password
+export const updateUserPassword = async(req: Request, res: Response) => {
+    try {
+        if(!req.userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        // Pick only allowed fields to update
+        const {  currentPassword, newPassword } = req.body;
+
+        // If user want to update password, hash it
+        if(!currentPassword || !newPassword) {
+            return res.status(400).json({ error: "Missing fields" });
+        }
+
+        const user = await User.findById(req.userId);
+
+        if(!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(
+            currentPassword,
+            user.passwordHash
+        );
+
+        if(!isMatch) {
+            return res.status(400).json({ error: "Current password incorrect" });
+        }
+
+        const salt = await bcrypt.genSalt(12);
+        user.passwordHash = await bcrypt.hash(newPassword, salt);
+
+        await user.save();
+
+        res.json({ message: "Password updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update user password" });
+    }
+};
 
 // DELETE /api/users/me
