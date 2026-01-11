@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import type { User } from "../types/User";
+
 import Header from "../components/UserProfile/Header/Header";
 import ProfileOverview from "../components/UserProfile/ProfileOverview/ProfileOverview";
 import MyOrders from "../components/UserProfile/MyOrders/MyOrders";
@@ -25,7 +26,7 @@ export const UserProfile = () => {
             return;
         }
 
-        fetch("http://localhost:3000/api/users/me", {
+        fetch("/api/users/me", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -35,11 +36,15 @@ export const UserProfile = () => {
             return res.json();
         })
         .then(data => setUser(data))
+        .catch(() => setUser(null))
         .finally(() => setLoading(false));
     }, []);
 
+
+    // Loading State
     if(loading) return <div className="p-8">Loading...</div>
 
+    // Not Logged In
     if(!user) return <div className="p-8">Please Log In</div>
 
     // Function to change tabs
@@ -56,7 +61,7 @@ export const UserProfile = () => {
             case "My Reviews":
                 return <MyReviews />
             case "Account Settings":
-                return <AccountSettings user={user} />
+                return <AccountSettings user={user} onUserUpdate={setUser} />
             default:
                 return <ProfileOverview user={user} />
         }
@@ -82,6 +87,7 @@ export const UserProfile = () => {
             <Header 
             onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
             isSidebarOpen={isSidebarOpen}
+            user={user}
             />
             <main className="flex-1 p-4 lg:p-8 overflow-auto">
                 {renderTabContent(user)}
@@ -89,5 +95,5 @@ export const UserProfile = () => {
         </div>
        </div>
         </>
-    )
-}
+    );
+};

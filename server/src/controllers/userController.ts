@@ -39,15 +39,12 @@ export const updateCurrentUser = async(req: Request, res: Response) => {
             return res.status(401).json({ error: "Unauthorized" });
         }
         // Pick only allowed fields to update
-        const { firstName, lastName, email, password } = req.body;
-        const updateData: Partial<{ firstName: string; lastName: string, email: string, passwordHash: string }> = {};
+        const { firstName, lastName, email } = req.body;
+        const updateData: Partial<{ firstName: string; lastName: string, email: string }> = {};
 
-        // If user want to update password, hash it
-        if(password) {
-            const salt = await bcrypt.genSalt(12);
-            const passwordHash = await bcrypt.hash(password, salt);
-            updateData.passwordHash = passwordHash;
-        }
+        if(firstName) updateData.firstName = firstName;
+        if(lastName) updateData.lastName = lastName;
+        if(email) updateData.email = email;
 
         const user = await User.findByIdAndUpdate(req.userId, updateData, { new: true }).select("-passwordHash");
 
@@ -67,5 +64,7 @@ export const updateCurrentUser = async(req: Request, res: Response) => {
         res.status(500).json({ message: "Failed to update user profile" });
     }
 };
+
+// PATCH /api/users/me/password
 
 // DELETE /api/users/me
