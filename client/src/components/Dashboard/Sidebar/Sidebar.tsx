@@ -24,7 +24,7 @@ interface SidebarProps {
         </div>
   
         <div className="flex-1 p-6 mt-7 space-y-2 overflow-auto">
-          {['dashboard', 'products', 'orders', 'reviews'].map(tab => (
+          {['dashboard', 'products', 'orders', 'reviews', 'admin settings'].map(tab => (
             <button
               key={tab}
               onClick={() => {
@@ -37,7 +37,7 @@ interface SidebarProps {
                   : "text-gray-700 hover:bg-gray-50"
               }`}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab === "admin settings" ? "Admin Settings" : tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
                  <button
