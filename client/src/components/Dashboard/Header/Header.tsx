@@ -1,9 +1,13 @@
+import type { User } from "../../../types/User";
+
 interface HeaderProps {
   onToggleSidebar: () => void;
   isSidebarOpen: boolean;
+  user: User | null;
+  loading: boolean;
 }
 
-const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
+const Header = ({ onToggleSidebar, isSidebarOpen, user, loading }: HeaderProps) => {
   return (
     <div className="bg-white border p-6 flex flex-row justify-between items-center">
       {!isSidebarOpen && (
@@ -24,8 +28,16 @@ const Header = ({ onToggleSidebar, isSidebarOpen }: HeaderProps) => {
 
       {/* User info */}
       <div className="text-right">
-        <p className="font-semibold text-gray-900">Admin User</p>
-        <p className="text-sm text-gray-600">admin@luxarist.com</p>
+       {loading ? (
+        <p className="text-sm text-gray-500">Loading...</p>
+       ) : user ? (
+        <>
+        <p className="fomnt-semibold text-gray-900">
+          {user.firstName} {user.lastName}
+        </p>
+        <p className="text-sm text-gray-600">{user.email}</p>
+        </>
+       ) : null}
       </div>
     </div>
   );

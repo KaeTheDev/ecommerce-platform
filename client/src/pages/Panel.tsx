@@ -9,6 +9,7 @@ import ReviewsTab from "../components/Dashboard/ReviewsTab/ReviewsTab";
 import { ProductForm } from "../components/Dashboard/ProductForm/ProductForm";
 import { createProduct, getProduct, deleteProduct, getSingleProduct, updateProduct } from "../api/products";
 import type { Product, ProductTableItem } from "../types/Product";
+import type { User } from "../types/User";
 import slugify from "slugify";
 
 export const Panel = () => {
@@ -19,6 +20,10 @@ export const Panel = () => {
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [products, setProducts] = useState<ProductTableItem[]>([]);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null); 
+
+  // Auth User State
+  const [user, setUser] = useState<User | null>(null);
+  const [userLoading, setUserLoading] = useState(true);
 
   // Function to change tabs
   const setActiveTab = (tab: string) => {
@@ -102,6 +107,47 @@ export const Panel = () => {
     }
   };
 
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data: { success: boolean; products: ProductTableItem[] } = await getProduct();
+        setProducts(data.products || []);
+      } catch (err) {
+        console.error("Failed to load products", err);
+      }
+    };
+  
+    loadProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchUser = async() => {
+      const token = localStorage.getItem("token");
+      if(!token) {
+        setUserLoading(false);
+        return;
+      }
+      try {
+        const res = await fetch("/api/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if(!res.ok) throw new Error("Unauthorized");
+
+        const data = await res.json();
+        setUser(data);
+      } catch(err) {
+        console.error("Failed to load user", err);
+        setUser(null);
+      } finally {
+        setUserLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "dashboard":
@@ -117,18 +163,6 @@ export const Panel = () => {
     }
   };
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const data: { success: boolean; products: ProductTableItem[] } = await getProduct();
-        setProducts(data.products || []);
-      } catch (err) {
-        console.error("Failed to load products", err);
-      }
-    };
-  
-    loadProducts();
-  }, []);
 
   return (
     <>
@@ -149,6 +183,8 @@ export const Panel = () => {
           <Header
             onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
             isSidebarOpen={isSidebarOpen}
+            user={user}
+            loading={userLoading}
           />
           <main className="flex-1 p-4 lg:p-8 overflow-auto">
             {renderTabContent()}
