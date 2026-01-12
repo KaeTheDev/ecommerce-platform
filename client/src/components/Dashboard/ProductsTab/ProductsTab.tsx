@@ -1,7 +1,9 @@
 import type { ProductsTabProps } from "../../../types/Product";
+import { useConfirmDelete } from "../../../contexts/ConfirmDeleteContext";
 
 
 const ProductsTab = ({ onOpenProductForm, products, onDelete, onEdit }: ProductsTabProps) => {
+  const { requestConfirm } = useConfirmDelete();
   return (
     <>
       <div className="p-8 min-h-150px relative">
@@ -58,7 +60,11 @@ const ProductsTab = ({ onOpenProductForm, products, onDelete, onEdit }: Products
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button onClick={() => onEdit(product.id)} 
                     className="mr-4 hover:scale-110 transition-transform">✏️</button>
-                  <button className="hover:scale-110 transition-transform" onClick={() => onDelete(product.id)}>🗑️</button>
+                  <button className="hover:scale-110 transition-transform" onClick={() => requestConfirm({
+                    title: "Delete Product?",
+                    message: "This product will be permanently removed and cannot be recovered.",
+                    onConfirm: () => onDelete(product.id),
+                  })}>🗑️</button>
                 </td>
               </tr>
             ))}

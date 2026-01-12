@@ -9,6 +9,7 @@ import {
 } from "./components/Routing/AdminRoute/AdminRoute";
 import { LogoutProvider } from "./contexts/LogoutContext";
 import { DeleteAccountProvider } from "./contexts/DeleteContext";
+import { ConfirmDeleteProvider } from "./contexts/ConfirmDeleteContext";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -16,22 +17,23 @@ function App() {
   return (
     <>
       <Navbar onAuthClick={() => setShowAuthModal(true)} />
+      <ConfirmDeleteProvider>
+        <DeleteAccountProvider>
+          <LogoutProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-    <DeleteAccountProvider>
-    <LogoutProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
+              <Route path="/panel" element={<AdminRoute />} />
+              <Route path="/userProfile" element={<CustomerRoute />} />
+            </Routes>
 
-          <Route path="/panel" element={<AdminRoute />} />
-          <Route path="/userProfile" element={<CustomerRoute />} />
-        </Routes>
-
-        <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
-      </LogoutProvider>
-    </DeleteAccountProvider>
+            <AuthModal
+              isOpen={showAuthModal}
+              onClose={() => setShowAuthModal(false)}
+            />
+          </LogoutProvider>
+        </DeleteAccountProvider>
+      </ConfirmDeleteProvider>
     </>
   );
 }
