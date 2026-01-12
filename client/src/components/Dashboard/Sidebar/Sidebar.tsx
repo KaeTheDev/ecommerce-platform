@@ -19,12 +19,11 @@ interface SidebarProps {
         } lg:translate-x-0`}
       >
         <div className="p-6 border-b">
-          <p className="text-xl font-bold text-gray-900">Luxarist</p>
-          <p className="text-sm text-gray-600">Admin Dashboard</p>
+          <p className="text-xl font-bold text-gray-900">Dashboard</p>
         </div>
   
         <div className="flex-1 p-6 mt-7 space-y-2 overflow-auto">
-          {['dashboard', 'products', 'orders', 'reviews', 'admin settings'].map(tab => (
+          {['overview', 'products', 'orders', 'reviews', 'admin settings'].map(tab => (
             <button
               key={tab}
               onClick={() => {

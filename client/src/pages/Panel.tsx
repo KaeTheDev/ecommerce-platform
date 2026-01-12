@@ -141,7 +141,7 @@ export const Panel = () => {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "dashboard":
+      case "overview":
         return <DashboardOverview />;
       case "products":
         return (
