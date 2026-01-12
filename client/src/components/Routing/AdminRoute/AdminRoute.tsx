@@ -1,26 +1,32 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { Panel } from "../../../pages/Panel";
 import { UserProfile } from "../../../pages/UserProfile";
 
-export const AdminRoute = () => {
+interface DrawerProps {
+    drawerOpen: boolean;
+    setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const AdminRoute = ({ drawerOpen, setDrawerOpen }: DrawerProps) => {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const userString = localStorage.getItem('user');
 
+    if(!token || !userString) return <Navigate to="/" replace />;
 
-    if(!token || !user) return <Navigate to="/" replace />;
-    const parsedUser = JSON.parse(user);
+    const parsedUser = JSON.parse(userString);
     if (parsedUser.role !== 'admin') return <Navigate to="/userProfile" replace />;
 
-    return <Panel />; 
+    return <Panel drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />; 
 };
 
-export const CustomerRoute = () => {
+export const CustomerRoute = ({ drawerOpen, setDrawerOpen }: DrawerProps) => {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const userString = localStorage.getItem('user');
 
-    if(!token || !user) return <Navigate to="/" replace />;
-    const parsedUser = JSON.parse(user);
-    if(parsedUser.role !== 'customer') return <Navigate to="/dashboard" replace />;
+    if(!token || !userString) return <Navigate to="/" replace />;
+    const parsedUser = JSON.parse(userString);
+    if(parsedUser.role !== 'customer') return <Navigate to="/panel" replace />;
 
-    return <UserProfile />;
+    return <UserProfile drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />;
 };

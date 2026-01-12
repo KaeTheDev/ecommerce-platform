@@ -5,6 +5,7 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  className?: string; 
 }
 
 const ProfileSidebar = ({
@@ -12,16 +13,16 @@ const ProfileSidebar = ({
   setActiveTab,
   isOpen,
   setIsOpen,
+  className = "",
 }: SidebarProps) => {
-
   const { requestLogout } = useLogout();
-
+  
   return (
     <div
       className={`w-64 shrink-0 bg-white shadow-lg border flex flex-col h-screen z-40 
-            lg:static fixed inset-y-0 left-0 transform transition-transform duration-300 ${
-              isOpen ? "translate-x-0" : "-translate-x-full"
-            } lg:translate-x-0`}
+        lg:static fixed inset-y-0 left-0 transform transition-transform duration-300 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0 ${className}`} 
     >
       <div className="flex-1 p-6 mt-7 space-y-2 overflow-auto">
         {["My Profile", "My Orders", "My Reviews", "Account Settings"].map(
@@ -38,7 +39,7 @@ const ProfileSidebar = ({
                   : "text-gray-700 hover:bg-gray-50"
               }`}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab}
             </button>
           )
         )}

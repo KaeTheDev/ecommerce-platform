@@ -5,4 +5,5 @@ export interface User {
     email: string;
     role: 'admin' | 'customer';
     memberSince: string;
+    avatar?: string;
 }

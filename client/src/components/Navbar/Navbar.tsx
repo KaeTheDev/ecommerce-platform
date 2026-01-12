@@ -1,12 +1,11 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface NavbarProps {
   onAuthClick: () => void;
+  onDrawerToggle?: () => void;  // Controls shared unified drawer
 }
 
-export default function Navbar({ onAuthClick }: NavbarProps) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+export default function Navbar({ onAuthClick, onDrawerToggle }: NavbarProps) {
 
   const categories = [
     ["Bracelets", "bracelets"],
@@ -22,10 +21,10 @@ export default function Navbar({ onAuthClick }: NavbarProps) {
       <div className="flex items-center justify-between px-6 py-3 lg:py-4">
         {/* Left: Logo on DESKTOP, hamburger on MOBILE */}
         <div className="flex items-center">
-          {/* Hamburger (mobile only) */}
+          {/* Hamburger (mobile only) - controls SHARED drawer */}
           <button
             className="lg:hidden mr-2"
-            onClick={() => setMobileOpen((prev) => !prev)}
+            onClick={onDrawerToggle}  // uses shared drawer toggle
           >
             <img
               src="/assets/icon-hamburger.svg"
@@ -119,37 +118,6 @@ export default function Navbar({ onAuthClick }: NavbarProps) {
           </button>
         </div>
       </div>
-
-      {/* Mobile slide-down menu */}
-      {mobileOpen && (
-        <div className="lg:hidden border-t bg-white">
-          <ul className="flex flex-col p-6 gap-4">
-            <li>
-              <Link to="/" onClick={() => setMobileOpen(false)}>
-                Home
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/collections" onClick={() => setMobileOpen(false)}>
-                Collections
-              </Link>
-            </li>
-
-            <li className="font-semibold">Shop</li>
-            {categories.map(([label, slug]) => (
-              <li key={slug} className="pl-4">
-                <Link
-                  to={`/collections/${slug}`}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </header>
   );
 }
