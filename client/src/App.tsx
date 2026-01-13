@@ -7,6 +7,7 @@ import { AdminRoute, CustomerRoute } from "./components/Routing/AdminRoute/Admin
 import { LogoutProvider } from "./contexts/LogoutContext";
 import { DeleteAccountProvider } from "./contexts/DeleteContext";
 import { ConfirmDeleteProvider } from "./contexts/ConfirmDeleteContext";
+import UnifiedMobileDrawer from "./components/UnifiedMobileDrawer/UnifiedMobileDrawer";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -33,6 +34,11 @@ function App() {
             <AuthModal
               isOpen={showAuthModal}
               onClose={() => setShowAuthModal(false)}
+            />
+                 {/* Global drawer */}
+                 <UnifiedMobileDrawer 
+              isOpen={drawerOpen}
+              onClose={() => setDrawerOpen(false)}
             />
           </LogoutProvider>
         </DeleteAccountProvider>

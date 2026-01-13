@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  createProduct,
-  getProduct,
-  deleteProduct,
-  getSingleProduct,
-  updateProduct,
-} from "../api/products";
+import { createProduct, getProduct, deleteProduct, getSingleProduct, updateProduct } from "../api/products";
 import type { Product, ProductTableItem } from "../types/Product";
 import type { User } from "../types/User";
 import slugify from "slugify";
