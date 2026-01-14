@@ -16,7 +16,7 @@ const Header = ({ user }: HeaderProps) => {
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-200 rounded-md overflow-hidden shrink-0">
             <img 
-              src={user?.avatar || "/public/assets/ProfileImage.jpg"} 
+              src={user?.avatar || "/assets/ProfileImage.jpg"} 
               alt={`${user?.firstName} ${user?.lastName}`}
               className="w-full h-full object-cover"
             />

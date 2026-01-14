@@ -182,7 +182,7 @@ export const Panel = ({ drawerOpen, setDrawerOpen }: PanelProps) => {
         />
   
         {/* Main area */}
-        <div className="flex-1 flex flex-col `lg:ml-64.25">
+        <div className="flex-1 flex flex-col `lg:ml-64">
           {/* Dashboard header */}
           <Header user={user} loading={userLoading} />
   
