@@ -8,6 +8,7 @@ import MyReviews from "../components/UserProfile/MyReviews/MyReviews";
 import AccountSettings from "../components/UserProfile/AccountSettings/AccountSettings";
 import ProfileSidebar from "../components/UserProfile/ProfileSidebar/ProfileSidebar";
 import UnifiedMobileDrawer from "../components/UnifiedMobileDrawer/UnifiedMobileDrawer";
+import Header from "../components/UserProfile/Header/Header";
 
 interface UserProfileProps {
   drawerOpen: boolean;
@@ -79,22 +80,7 @@ export const UserProfile = ({ drawerOpen, setDrawerOpen }: UserProfileProps) => 
         {/* Main area */}
         <div className="flex-1 flex flex-col">
           {/* Profile Header */}
-          <div className="bg-white border-b border-gray-200 p-6 flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">My Account</h1>
-            <div className="flex items-center gap-3">
-              <img 
-                src={user?.avatar || "/public/assets/ProfileImage.jpg"} 
-                alt={`${user?.firstName} ${user?.lastName}`}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div className="text-right hidden sm:block">
-                <p className="font-semibold text-gray-900 text-sm">
-                  {user?.firstName} {user?.lastName}
-                </p>
-                <p className="text-xs text-gray-500">{user?.email}</p>
-              </div>
-            </div>
-          </div>
+          <Header user={user} />
   
           {/* Main content */}
           <main className="flex-1 p-4 lg:p-8 overflow-auto">
