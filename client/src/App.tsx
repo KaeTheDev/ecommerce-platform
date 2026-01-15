@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
+import ProductDisplay from "./pages/ProductDisplay";
 import Navbar from "./components/Navbar/Navbar";
 import { AuthModal } from "./components/Auth/AuthModal/AuthModal";
 import { AdminRoute, CustomerRoute } from "./components/Routing/AdminRoute/AdminRoute";
@@ -29,6 +30,7 @@ function App() {
                       setDrawerOpen={setDrawerOpen}  />} />
               <Route path="/userProfile" element={<CustomerRoute  drawerOpen={drawerOpen}
                       setDrawerOpen={setDrawerOpen} />} />
+              <Route path="/product/:id" element={<ProductDisplay />} />
             </Routes>
 
             <AuthModal
