@@ -13,7 +13,7 @@ const ProductDetailsTabs = () => {
   return (
     <div className="w-full max-w-3xl mt-12">
       {/* Tab Picker */}
-      <div className="flex gap-8 border-b">
+      <div className="flex gap-8 border-b overflow-x-auto">
         {TABS.map((tab) => (
           <button
             key={tab.id}

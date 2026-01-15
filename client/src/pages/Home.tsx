@@ -1,6 +1,7 @@
 import ProductDetailsTabs from "../components/ProductCard/ProductDetailsTab/ProductDetailsTab";
-import ProductImageGallery from "../components/ProductCard/ProductImgeGallery/ProductImageGallery";
+import ProductImageGallery from "../components/ProductCard/ProductImageGallery/ProductImageGallery";
 import ProductInformation from "../components/ProductCard/ProductInformation/ProductInformation";
+import ProductRecommendations from "../components/ProductRecommendations/ProductRecommendations";
 
 export const Home = () => {
   return (
@@ -13,6 +14,8 @@ export const Home = () => {
         </div>
         <ProductDetailsTabs />
       </div>
+
+      <ProductRecommendations />
     </>
   );
 };
