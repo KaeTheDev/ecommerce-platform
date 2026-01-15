@@ -1,4 +1,4 @@
-// import ProductDetailsTabs from "../components/ProductCard/ProductDetailsTab/ProductDetailsTab";
+import ProductDetailsTabs from "../components/ProductCard/ProductDetailsTab/ProductDetailsTab";
 import ProductImageGallery from "../components/ProductCard/ProductImgeGallery/ProductImageGallery";
 import ProductInformation from "../components/ProductCard/ProductInformation/ProductInformation";
 
@@ -11,7 +11,7 @@ export const Home = () => {
           <ProductImageGallery />
           <ProductInformation />
         </div>
-        {/* <ProductDetailsTabs /> */}
+        <ProductDetailsTabs />
       </div>
     </>
   );
