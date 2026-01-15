@@ -15,7 +15,6 @@ const ProductDetailsTabs = () => {
       {/* Tabs */}
       <div className="border-b">
         <div className="grid grid-cols-4">
-
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
 
@@ -25,9 +24,11 @@ const ProductDetailsTabs = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`
                   relative px-8 py-4 text-sm font-medium transition
-                  ${isActive
-                    ? "border border-black bg-white -mb-px z-10"
-                    : "text-gray-500 hover:text-black"}
+                  ${
+                    isActive
+                      ? "border border-black bg-white -mb-px z-10"
+                      : "text-gray-500 hover:text-black"
+                  }
                 `}
               >
                 {tab.label}
@@ -43,13 +44,13 @@ const ProductDetailsTabs = () => {
           <div className="space-y-6">
             <p>
               The Celestial Diamond Ring is a masterpiece of modern
-              craftsmanship, featuring a stunning center diamond surrounded by
-              a halo of smaller brilliant-cut diamonds.
+              craftsmanship, featuring a stunning center diamond surrounded by a
+              halo of smaller brilliant-cut diamonds.
             </p>
             <p>
               Set in 18K white gold, this ring combines timeless elegance with
-              contemporary design. The delicate pavé band enhances sparkle
-              while the cathedral setting maximizes light exposure.
+              contemporary design. The delicate pavé band enhances sparkle while
+              the cathedral setting maximizes light exposure.
             </p>
             <p>
               Perfect for engagements or special occasions, each piece is
@@ -76,11 +77,20 @@ const ProductDetailsTabs = () => {
         )}
 
         {activeTab === "reviews" && (
-          <div className="space-y-3">
-            <p className="font-medium">⭐⭐⭐⭐⭐ Sarah M.</p>
-            <p>
-              Absolutely stunning. The craftsmanship is impeccable and the
-              diamond sparkles beautifully in any light.
+          <div className="flex flex-col space-y-3">
+            {/* Stars + Date */}
+            <div className="flex items-center justify-between">
+              <span>⭐⭐⭐⭐⭐</span>
+              <span className="text-sm text-gray-500">Jan 12, 2026</span>
+            </div>
+
+            <p className="font-medium">Sarah M.</p>
+
+            <p className="font-medium">Absolutely stunning.</p>
+
+            <p className="text-gray-700">
+              The craftsmanship is impeccable and the diamond sparkles
+              beautifully in any light.
             </p>
           </div>
         )}
