@@ -110,6 +110,9 @@ export default function Navbar({ onAuthClick, onDrawerToggle }: NavbarProps) {
 
         {/* Right: profile (always visible) */}
         <div className="flex items-center gap-4">
+          <button className="rounded-full hover:opacity-80 transition-opacity">
+            <img src="/assets/icon-cart.svg" alt="Cart" />
+          </button>
           <button
             onClick={onAuthClick}
             className="rounded-full hover:opacity-80 transition-opacity"
