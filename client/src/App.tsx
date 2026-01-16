@@ -4,47 +4,73 @@ import { Home } from "./pages/Home";
 import ProductDisplay from "./pages/ProductDisplay";
 import Navbar from "./components/Navbar/Navbar";
 import { AuthModal } from "./components/Auth/AuthModal/AuthModal";
-import { AdminRoute, CustomerRoute } from "./components/Routing/AdminRoute/AdminRoute";
+import {
+  AdminRoute,
+  CustomerRoute,
+} from "./components/Routing/AdminRoute/AdminRoute";
 import { LogoutProvider } from "./contexts/LogoutContext";
 import { DeleteAccountProvider } from "./contexts/DeleteContext";
 import { ConfirmDeleteProvider } from "./contexts/ConfirmDeleteContext";
+import { CartModalProvider } from "./contexts/CartModalContext";
 import UnifiedMobileDrawer from "./components/UnifiedMobileDrawer/UnifiedMobileDrawer";
+import CartModal from "./components/Cart/CartModal/CartModal";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false); 
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <>
-      <Navbar 
-      onAuthClick={() => setShowAuthModal(true)} 
-      onDrawerToggle={() => setDrawerOpen(prev => !prev)} 
-      />
+    <CartModalProvider>
     <ConfirmDeleteProvider>
         <DeleteAccountProvider>
           <LogoutProvider>
-            <Routes>
-              <Route path="/" element={<Home />} />
+      <Navbar
+        onAuthClick={() => setShowAuthModal(true)}
+        onDrawerToggle={() => setDrawerOpen((prev) => !prev)}
+      />
 
-              <Route path="/panel" element={<AdminRoute drawerOpen={drawerOpen}
-                      setDrawerOpen={setDrawerOpen}  />} />
-              <Route path="/userProfile" element={<CustomerRoute  drawerOpen={drawerOpen}
-                      setDrawerOpen={setDrawerOpen} />} />
-              <Route path="/product/:id" element={<ProductDisplay />} />
-            </Routes>
+   
+            
+              <Routes>
+                <Route path="/" element={<Home />} />
 
-            <AuthModal
-              isOpen={showAuthModal}
-              onClose={() => setShowAuthModal(false)}
-            />
-                 {/* Global drawer */}
-                 <UnifiedMobileDrawer 
-              isOpen={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-            />
+                <Route
+                  path="/panel"
+                  element={
+                    <AdminRoute
+                      drawerOpen={drawerOpen}
+                      setDrawerOpen={setDrawerOpen}
+                    />
+                  }
+                />
+                <Route
+                  path="/userProfile"
+                  element={
+                    <CustomerRoute
+                      drawerOpen={drawerOpen}
+                      setDrawerOpen={setDrawerOpen}
+                    />
+                  }
+                />
+                <Route path="/product/:id" element={<ProductDisplay />} />
+              </Routes>
+
+              <CartModal />
+
+              <AuthModal
+                isOpen={showAuthModal}
+                onClose={() => setShowAuthModal(false)}
+              />
+              {/* Global drawer */}
+              <UnifiedMobileDrawer
+                isOpen={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+              />
           </LogoutProvider>
         </DeleteAccountProvider>
       </ConfirmDeleteProvider>
+      </CartModalProvider>
     </>
   );
 }
