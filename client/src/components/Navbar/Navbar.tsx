@@ -31,7 +31,7 @@ export default function Navbar({
             aria-label="Open menu"
           >
             <img
-              src="/assets/icon-hamburger.svg"
+              src="/assets/icons/icon-hamburger.svg"
               alt=""
               className="h-6 w-6"
             />
@@ -39,7 +39,7 @@ export default function Navbar({
 
           <Link to="/" className="hidden lg:flex items-center">
             <img
-              src="/assets/LuxaristLogo.png"
+              src="/assets/logos/LuxaristLogo.png"
               alt="Luxarist Logo"
               className="h-14 cursor-pointer"
             />
@@ -50,7 +50,7 @@ export default function Navbar({
         <div className="flex-1 flex justify-center">
           <Link to="/" className="lg:hidden flex items-center">
             <img
-              src="/assets/LuxaristLogo.png"
+              src="/assets/logos/LuxaristLogo.png"
               alt="Luxarist Logo"
               className="h-14 cursor-pointer"
             />
@@ -105,7 +105,7 @@ export default function Navbar({
             aria-label="Toggle cart"
             className="relative flex items-center rounded-full hover:opacity-80"
           >
-            <img src="/assets/icon-cart.svg" alt="" className="h-6 w-6" />
+            <img src="/assets/icons/icon-cart.svg" alt="" className="h-6 w-6" />
           </button>
 
           <button
@@ -114,7 +114,7 @@ export default function Navbar({
             className="rounded-full hover:opacity-80"
           >
             <img
-              src="/assets/Profile.png"
+              src="/assets/icons/Profile.png"
               alt=""
               className="h-6 w-6"
             />
