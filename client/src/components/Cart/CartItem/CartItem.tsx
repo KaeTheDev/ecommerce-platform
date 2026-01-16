@@ -1,4 +1,4 @@
-import QuantitySelector from "../QuantitySelector/QuantitySelector"
+import QuantitySelector from "../../QuantitySelector/QuantitySelector"
 
 const CartItem = () => {
   return (

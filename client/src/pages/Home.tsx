@@ -1,4 +1,4 @@
-import CartItem from "../components/Cart/CartItem";
+import CartItem from "../components/Cart/CartItem/CartItem";
 
 export const Home = () => {
   return (
