@@ -26,7 +26,7 @@ const Hero = () => {
             Luxury in Every Detail
           </h1>
           <p className="text-xs sm:text-sm md:text-lg lg:text-xl">
-            Discover refinement across every piece in our curated collection.
+            Discover refinement across every piece in our exclusive collection.
           </p>
           <button className="mt-2 px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition">
             Shop the Collection
