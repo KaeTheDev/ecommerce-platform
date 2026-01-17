@@ -16,6 +16,7 @@ import { CartModalProvider } from "./contexts/CartModalContext";
 import UnifiedMobileDrawer from "./components/UnifiedMobileDrawer/UnifiedMobileDrawer";
 import CartModal from "./components/Cart/CartModal/CartModal";
 import Collections from "./pages/Collections";
+import SingleCollection from "./pages/SingleCollection";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -57,6 +58,8 @@ function App() {
                 />
                 <Route path="/product/:id" element={<ProductDisplay />} />
                 <Route path="/collections" element={<Collections />} />
+
+                <Route path="/collections/:category" element={<SingleCollection />} />
               </Routes>
 
               {/* Global Footer */}
