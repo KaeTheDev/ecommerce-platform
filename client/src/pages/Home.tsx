@@ -3,6 +3,7 @@ import FeaturedSignaturePiece from "../components/FeaturedSignaturePiece/Feature
 import Hero from "../components/Hero/Hero";
 import LuxaristPromises from "../components/LuxaristPromises/LuxaristPromises";
 import NewArrivals from "../components/NewArrivals/NewArrivals";
+import NewsletterSignup from "../components/NewsletterSignup/NewsletterSignup";
 
 export const Home = () => {
   return (
@@ -20,6 +21,7 @@ export const Home = () => {
       <h3 className="text-5xl text-center mt-6">The Luxarist Promise</h3>
       <p className="text-center">Uncompromising Quality</p>
       <LuxaristPromises />
+      <NewsletterSignup />
       </div>
     </>
   );

@@ -26,7 +26,7 @@ const FeaturedSignaturePiece = () => {
           <div className="w-full md:w-1/2 rounded-xl border border-gray-200 bg-white p-5 sm:p-6 lg:p-8 flex items-center">
             <div className="w-full space-y-4 sm:space-y-5 text-center lg:text-left">
               <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-gray-500">
-                SIGNATURE COLLECTION
+                TIMELESS ELEGANCE
               </span>
   
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight">
