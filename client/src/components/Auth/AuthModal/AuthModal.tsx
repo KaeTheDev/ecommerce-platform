@@ -110,7 +110,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         className="bg-white rounded-2xl shadow-2xl max-w-md w-full border border-gray-100"
         onClick={(e) => e.stopPropagation()}
       >
-        <img src="/assets/LuxaristLogo.png" alt="Luxarist Logo" className="mx-auto h-15"  />
+        <img src="/assets/logos/LuxaristLogo.png" alt="Luxarist Logo" className="mx-auto h-15"  />
         {/* Header with tabs */}
         <div className="p-6 pb-0 border-b border-gray-100">
           {/* Tabs */}

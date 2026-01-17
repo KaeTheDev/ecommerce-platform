@@ -4,6 +4,7 @@ import Hero from "../components/Hero/Hero";
 import LuxaristPromises from "../components/LuxaristPromises/LuxaristPromises";
 import NewArrivals from "../components/NewArrivals/NewArrivals";
 import NewsletterSignup from "../components/NewsletterSignup/NewsletterSignup";
+import SiteFooter from "../components/SiteFooter/SiteFooter";
 
 export const Home = () => {
   return (
@@ -22,6 +23,7 @@ export const Home = () => {
       <p className="text-center">Uncompromising Quality</p>
       <LuxaristPromises />
       <NewsletterSignup />
+      <SiteFooter />
       </div>
     </>
   );
