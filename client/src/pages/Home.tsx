@@ -1,4 +1,5 @@
 import FeaturedCategories from "../components/FeaturedCategories/FeaturedCategories";
+import FeaturedSignaturePiece from "../components/FeaturedSignaturePiece/FeaturedSignaturePiece";
 import Hero from "../components/Hero/Hero";
 
 export const Home = () => {
@@ -10,6 +11,7 @@ export const Home = () => {
       <h2 className="text-5xl text-center mt-6">Featured Collections</h2>
       <p className="text-center">Explore our handpicked selection of fine jewelry.</p>
       <FeaturedCategories />
+      <FeaturedSignaturePiece />
       </div>
     </>
   );
