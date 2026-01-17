@@ -1,4 +1,4 @@
-const Hero = () => {
+const HomeHero = () => {
     return (
       <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
         {/* Video background for desktop */}
@@ -36,4 +36,4 @@ const Hero = () => {
     );
   };
   
-  export default Hero;  
+  export default HomeHero;  
