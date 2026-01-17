@@ -1,6 +1,7 @@
 import FeaturedCategories from "../components/FeaturedCategories/FeaturedCategories";
 import FeaturedSignaturePiece from "../components/FeaturedSignaturePiece/FeaturedSignaturePiece";
 import Hero from "../components/Hero/Hero";
+import LuxaristPromises from "../components/LuxaristPromises/LuxaristPromises";
 import NewArrivals from "../components/NewArrivals/NewArrivals";
 
 export const Home = () => {
@@ -18,6 +19,7 @@ export const Home = () => {
       <NewArrivals />
       <h3 className="text-5xl text-center mt-6">The Luxarist Promise</h3>
       <p className="text-center">Uncompromising Quality</p>
+      <LuxaristPromises />
       </div>
     </>
   );
