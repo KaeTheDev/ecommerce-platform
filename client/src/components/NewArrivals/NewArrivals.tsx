@@ -1,22 +1,3 @@
-// import NewArrivalCard from "../NewArrivalCard/NewArrivalCard";
-
-// const NewArrivals = () => {
-    
-//     return (
-//       <section className="py-16">
-//         <div className="carousel">
-//             <NewArrivalCard />
-//             <NewArrivalCard />
-//             <NewArrivalCard />
-//             <NewArrivalCard />
-//             <NewArrivalCard />
-//         </div>
-//       </section>
-//     );
-//   };
-
-// export default NewArrivals;
-
 import NewArrivalCard from "../NewArrivalCard/NewArrivalCard";
 
 const NewArrivals = () => {
