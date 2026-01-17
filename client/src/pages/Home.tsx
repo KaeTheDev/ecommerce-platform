@@ -1,6 +1,7 @@
 import FeaturedCategories from "../components/FeaturedCategories/FeaturedCategories";
 import FeaturedSignaturePiece from "../components/FeaturedSignaturePiece/FeaturedSignaturePiece";
 import Hero from "../components/Hero/Hero";
+import NewArrivalCard from "../components/NewArrivalCard/NewArrivalCard";
 
 export const Home = () => {
   return (
@@ -14,6 +15,7 @@ export const Home = () => {
       <FeaturedSignaturePiece />
       <h3 className="text-5xl text-center mt-6">New Arrivals</h3>
       <p className="text-center">Discover the latest additions to our collection.</p>
+      <NewArrivalCard />
       </div>
     </>
   );

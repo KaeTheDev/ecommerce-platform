@@ -16,7 +16,7 @@ const FeaturedSignaturePiece = () => {
           {/* Image box */}
           <div className="w-full md:w-1/2 rounded-xl bg-white p-4 sm:p-5 lg:p-6">
             <img
-              src="/assets/images/FeaturedPiece.png"
+              src="/assets/images/featured-piece.png"
               alt="Premium diamond necklace in 18K gold plating"
               className="h-full w-full rounded-lg object-cover"
             />
