@@ -13,7 +13,7 @@ const NewArrivals = () => {
         </div>
 
         {/* Mock Navigation (optional for layout) */}
-        <div className="flex justify-center gap-4 mt-12">
+        <div className="flex justify-center gap-4 mt-2">
           <button className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-all">
             ←
           </button>

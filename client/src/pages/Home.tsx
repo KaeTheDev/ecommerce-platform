@@ -16,6 +16,8 @@ export const Home = () => {
       <h3 className="text-5xl text-center mt-6">New Arrivals</h3>
       <p className="text-center">Discover the latest additions to our collection.</p>
       <NewArrivals />
+      <h3 className="text-5xl text-center mt-6">The Luxarist Promise</h3>
+      <p className="text-center">Uncompromising Quality</p>
       </div>
     </>
   );
