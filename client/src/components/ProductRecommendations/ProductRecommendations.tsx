@@ -1,6 +1,6 @@
 const ProductRecommendations = () => {
     return (
-      <section className="mt-16">
+      <section className="mt-16 mb-10">
         <h2 className="text-xl font-semibold">You May Also Like</h2>
         <p className="text-sm text-gray-600 mt-1">
           Handpicked pieces that complement your selection.
