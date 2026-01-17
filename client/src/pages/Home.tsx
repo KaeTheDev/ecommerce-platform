@@ -12,6 +12,8 @@ export const Home = () => {
       <p className="text-center">Explore our handpicked selection of fine jewelry.</p>
       <FeaturedCategories />
       <FeaturedSignaturePiece />
+      <h3 className="text-5xl text-center mt-6">New Arrivals</h3>
+      <p className="text-center">Discover the latest additions to our collection.</p>
       </div>
     </>
   );
