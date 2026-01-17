@@ -4,12 +4,10 @@ import FeaturedSignaturePiece from "../components/FeaturedSignaturePiece/Feature
 import LuxaristPromises from "../components/LuxaristPromises/LuxaristPromises";
 import NewArrivals from "../components/NewArrivals/NewArrivals";
 import NewsletterSignup from "../components/NewsletterSignup/NewsletterSignup";
-import SiteFooter from "../components/SiteFooter/SiteFooter";
 
 export const Home = () => {
   return (
     <>
-      {/* <h1 className="text-3xl text-purple-700">Welcome to Luxarist!</h1> */}
       <div className="flex flex-col">
       <HomeHero />
       <h2 className="text-5xl text-center mt-6">Featured Collections</h2>
@@ -23,7 +21,6 @@ export const Home = () => {
       <p className="text-center">Uncompromising Quality</p>
       <LuxaristPromises />
       <NewsletterSignup />
-      <SiteFooter />
       </div>
     </>
   );

@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import ProductDisplay from "./pages/ProductDisplay";
 import Navbar from "./components/Navbar/Navbar";
+import SiteFooter from "./components/SiteFooter/SiteFooter";
 import { AuthModal } from "./components/Auth/AuthModal/AuthModal";
 import {
   AdminRoute,
@@ -14,6 +15,7 @@ import { ConfirmDeleteProvider } from "./contexts/ConfirmDeleteContext";
 import { CartModalProvider } from "./contexts/CartModalContext";
 import UnifiedMobileDrawer from "./components/UnifiedMobileDrawer/UnifiedMobileDrawer";
 import CartModal from "./components/Cart/CartModal/CartModal";
+import Collections from "./pages/Collections";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -54,7 +56,11 @@ function App() {
                   }
                 />
                 <Route path="/product/:id" element={<ProductDisplay />} />
+                <Route path="/collections" element={<Collections />} />
               </Routes>
+
+              {/* Global Footer */}
+              <SiteFooter />
 
               <CartModal />
 
