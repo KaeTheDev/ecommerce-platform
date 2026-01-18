@@ -25,3 +25,5 @@ https://deadsimplechat.com/blog/how-to-set-up-typescript-with-express-and-node-j
 https://blog.stackademic.com/create-a-backend-application-using-express-typescript-and-handle-authentication-1f67be81da60
 
 https://jwtsecrets.com/blog/jwt-authentication-nodejs-tutorial
+
+https://blog.logrocket.com/building-carousel-component-react-hooks/
