@@ -18,6 +18,7 @@ import CartModal from "./components/Cart/CartModal/CartModal";
 import Collections from "./pages/Collections";
 import SingleCollection from "./pages/SingleCollection";
 import Checkout from "./pages/Checkout";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -62,6 +63,7 @@ function App() {
 
                 <Route path="/collections/:category" element={<SingleCollection />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/favorites" element={<Favorites />} />
               </Routes>
 
               {/* Global Footer */}
