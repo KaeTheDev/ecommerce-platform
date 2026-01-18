@@ -21,11 +21,11 @@ const SingleCollection = () => {
 
       {/* Product grid */}
       <section className="px-4 sm:px-6 lg:px-10 pb-20">
-        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((_, index) => (
-            <SingleCollectionCard key={index} />
-          ))}
-        </div>
+        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+  {products.map((_, index) => (
+    <SingleCollectionCard key={index} />
+  ))}
+</div>
       </section>
     </>
   );
