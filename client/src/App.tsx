@@ -17,6 +17,7 @@ import UnifiedMobileDrawer from "./components/UnifiedMobileDrawer/UnifiedMobileD
 import CartModal from "./components/Cart/CartModal/CartModal";
 import Collections from "./pages/Collections";
 import SingleCollection from "./pages/SingleCollection";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/collections" element={<Collections />} />
 
                 <Route path="/collections/:category" element={<SingleCollection />} />
+                <Route path="/checkout" element={<Checkout />} />
               </Routes>
 
               {/* Global Footer */}
