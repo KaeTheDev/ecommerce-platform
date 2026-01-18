@@ -10,6 +10,7 @@ const NewArrivals = () => {
           <NewArrivalCard />
           <NewArrivalCard />
           <NewArrivalCard />
+          <NewArrivalCard />
         </div>
 
         {/* Mock Navigation (optional for layout) */}

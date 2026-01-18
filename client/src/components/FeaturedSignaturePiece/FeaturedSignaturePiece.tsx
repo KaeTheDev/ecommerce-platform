@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 const FeaturedSignaturePiece = () => {
+
+const navigate = useNavigate();
+
+const handleClick = () => {
+  navigate('/product/necklace');
+}
+
     return (
       <section className="w-full bg-gray-50 py-20 px-4 sm:px-6 lg:px-12">
         {/* Section Header */}
@@ -38,7 +47,7 @@ const FeaturedSignaturePiece = () => {
               </p>
   
               <div className="flex justify-center lg:justify-start pt-2">
-                <button className="inline-flex items-center justify-center rounded-full bg-black px-8 lg:px-10 py-2.5 lg:py-3 text-sm lg:text-base font-medium text-white transition hover:bg-gray-900">
+                <button onClick={handleClick} className="inline-flex items-center justify-center rounded-full bg-gray-700 px-8 lg:px-10 py-2.5 lg:py-3 text-sm lg:text-base font-medium text-white transition hover:bg-gray-300 hover:text-black">
                 View Necklace
                 </button>
               </div>

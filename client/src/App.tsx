@@ -20,6 +20,7 @@ import SingleCollection from "./pages/SingleCollection";
 import Checkout from "./pages/Checkout";
 import Favorites from "./pages/Favorites";
 import NewArrivals from "./pages/NewArrivals";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -27,17 +28,16 @@ function App() {
 
   return (
     <>
-    <CartModalProvider>
-    <ConfirmDeleteProvider>
-        <DeleteAccountProvider>
-          <LogoutProvider>
-      <Navbar
-        onAuthClick={() => setShowAuthModal(true)}
-        onDrawerToggle={() => setDrawerOpen((prev) => !prev)}
-      />
+      <ScrollToTop />
+      <CartModalProvider>
+        <ConfirmDeleteProvider>
+          <DeleteAccountProvider>
+            <LogoutProvider>
+              <Navbar
+                onAuthClick={() => setShowAuthModal(true)}
+                onDrawerToggle={() => setDrawerOpen((prev) => !prev)}
+              />
 
-   
-            
               <Routes>
                 <Route path="/" element={<Home />} />
 
@@ -62,7 +62,10 @@ function App() {
                 <Route path="/product/:id" element={<ProductDisplay />} />
                 <Route path="/collections" element={<Collections />} />
 
-                <Route path="/collections/:category" element={<SingleCollection />} />
+                <Route
+                  path="/collections/:category"
+                  element={<SingleCollection />}
+                />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/newarrivals" element={<NewArrivals />} />
@@ -82,9 +85,9 @@ function App() {
                 isOpen={drawerOpen}
                 onClose={() => setDrawerOpen(false)}
               />
-          </LogoutProvider>
-        </DeleteAccountProvider>
-      </ConfirmDeleteProvider>
+            </LogoutProvider>
+          </DeleteAccountProvider>
+        </ConfirmDeleteProvider>
       </CartModalProvider>
     </>
   );

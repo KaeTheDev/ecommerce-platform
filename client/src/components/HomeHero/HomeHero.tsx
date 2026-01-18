@@ -4,7 +4,7 @@ const HomeHero = () => {
 
 const navigate = useNavigate();
 
-const goToCollections = () => {
+const handleClick= () => {
   navigate('/collections');
 }
 
@@ -37,7 +37,7 @@ const goToCollections = () => {
           <p className="text-xs sm:text-sm md:text-lg lg:text-xl">
             Discover refinement across every piece in our exclusive collection.
           </p>
-          <button onClick={goToCollections} className="mt-2 px-6 py-3 bg-gray-700 text-white rounded hover:bg-gray-300 hover:text-black transition">
+          <button onClick={handleClick} className="mt-2 px-6 py-3 bg-gray-700 text-white rounded hover:bg-gray-300 hover:text-black transition">
             Shop the Collection
           </button>
         </div>
