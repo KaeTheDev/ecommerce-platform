@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 const HomeHero = () => {
+
+const navigate = useNavigate();
+
+const goToCollections = () => {
+  navigate('/collections');
+}
+
     return (
       <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
         {/* Video background for desktop */}
@@ -28,7 +37,7 @@ const HomeHero = () => {
           <p className="text-xs sm:text-sm md:text-lg lg:text-xl">
             Discover refinement across every piece in our exclusive collection.
           </p>
-          <button className="mt-2 px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition">
+          <button onClick={goToCollections} className="mt-2 px-6 py-3 bg-gray-700 text-white rounded hover:bg-gray-300 hover:text-black transition">
             Shop the Collection
           </button>
         </div>
