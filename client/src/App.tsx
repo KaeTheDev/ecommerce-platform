@@ -19,6 +19,7 @@ import Collections from "./pages/Collections";
 import SingleCollection from "./pages/SingleCollection";
 import Checkout from "./pages/Checkout";
 import Favorites from "./pages/Favorites";
+import NewArrivals from "./pages/NewArrivals";
 
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -64,6 +65,7 @@ function App() {
                 <Route path="/collections/:category" element={<SingleCollection />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/favorites" element={<Favorites />} />
+                <Route path="/newarrivals" element={<NewArrivals />} />
               </Routes>
 
               {/* Global Footer */}
