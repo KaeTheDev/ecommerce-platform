@@ -4,6 +4,7 @@ import { RegisterForm } from "../RegisterForm/RegisterForm";
 import type { RegistrationFormData } from "../../../types/Registration";
 import { useNavigate } from "react-router-dom";
 import type { LoginFormData } from "../../../types/Login";
+import { useAuth } from "../../../contexts/AuthContext";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface AuthModalProps {
 export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+  const { setUser, setIsAuthenticated } = useAuth();
 
   if (!isOpen) return null;
 
@@ -39,7 +41,6 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       });
   
       if (response.ok) {
-
         const data = await response.json();
         console.log('User Registered!', data);
 
@@ -47,14 +48,19 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
+        // Update AuthContext state
+        setUser(data.user);
+        setIsAuthenticated(true);
+
+        // Close modal first
+        onClose();
+
         // Redirect based on role
         if(data.user?.role === 'customer') {
           navigate('/userProfile');
         } else {
           navigate('/panel');
         }
-        // Registration success - close modal, (ADD LATER: show success message)
-        onClose();
       } else {
         const error = await response.json();
         console.error('Registration Failed:', error);
@@ -83,14 +89,19 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
+        // Update AuthContext state
+        setUser(data.user);
+        setIsAuthenticated(true);
+
+        // Close modal first
+        onClose();
+
         // Redirect based on role
         if(data.user?.role === 'customer') {
           navigate('/userProfile');
         } else {
           navigate('/panel');
         }
-        // Registration success - close modal, (ADD LATER: show success message)
-        onClose();
       } else {
         const error = await response.json();
         console.error('Login Failed:', error);

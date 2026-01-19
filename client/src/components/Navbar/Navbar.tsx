@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCartModal } from "../../contexts/CartModalContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface NavbarProps {
   onAuthClick: () => void;
@@ -19,6 +20,11 @@ export default function Navbar({
   ];
 
   const { toggleCart } = useCartModal();
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  // Check if user is on panel or userProfile pages
+  const isOnDashboard = location.pathname === "/panel" || location.pathname === "/userProfile";
 
   return (
     <header className="bg-gray-300 shadow-md">
@@ -108,17 +114,32 @@ export default function Navbar({
             <img src="/assets/icons/icon-cart.svg" alt="" className="h-6 w-6" />
           </button>
 
-          <button
-            onClick={onAuthClick}
-            aria-label="Open profile"
-            className="rounded-full hover:opacity-80"
-          >
-            <img
-              src="/assets/icons/Profile.png"
-              alt=""
-              className="h-6 w-6"
-            />
-          </button>
+          {/* Conditional rendering based on authentication status */}
+          {isAuthenticated ? (
+            <>
+              {/* Desktop only - View Panel button (hidden on dashboard pages) */}
+              {!isOnDashboard && (
+                <Link
+                  to="/panel"
+                  className="hidden lg:block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  View Panel
+                </Link>
+              )}
+            </>
+          ) : (
+            <button
+              onClick={onAuthClick}
+              aria-label="Open profile"
+              className="rounded-full hover:opacity-80"
+            >
+              <img
+                src="/assets/icons/Profile.png"
+                alt=""
+                className="h-6 w-6"
+              />
+            </button>
+          )}
         </div>
       </div>
     </header>

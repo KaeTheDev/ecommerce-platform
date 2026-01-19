@@ -1,13 +1,16 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import type { User } from "../types/User";
 
 export interface AuthContextType {
-  user: User | null; // Current logged-in user
-  isAuthenticated: boolean; // Flag for route checking
-  isLoading: boolean; // While validating token
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (userData: RegisterFormData) => Promise<void>;
   logout: () => void;
+  // Add setters for direct state updates
+  setUser: (user: User | null) => void;
+  setIsAuthenticated: (isAuth: boolean) => void;
 }
 
 interface RegisterFormData {
@@ -24,7 +27,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check for existing auth on mount
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+
+      if (token && storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error("Error parsing stored user:", error);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        }
+      }
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, []);
 
   // Login Function
   const login = async (email: string, password: string): Promise<void> => {
@@ -91,6 +117,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   const value: AuthContextType = {
@@ -100,15 +128,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     login,
     register,
     logout,
+    setUser,
+    setIsAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-  // useAuth hook
-  export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if(!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
-    return context;
+
+// useAuth hook
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if(!context) {
+      throw new Error("useAuth must be used within an AuthProvider");
   }
+  return context;
+};
