@@ -1,24 +1,3 @@
-// const NewsletterSignup = () => {
-//   return (
-//     <>
-//     <div className="flex flex-col bg-gray-200 py-7">
-//     <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-gray-500 text-center">
-//         STAY CONNECTED
-//       </span>
-//       <h3 className="text-5xl text-center mt-6">Join Our Circle</h3>
-//       <p className="text-center">Be the first to hear about new collections and exclusive offers.</p>
-//      <div className="flex flex-row justify-center">
-//      <input type="text" placeholder="Enter Your Email Address" />
-//      <button className="bg-black text-white ml-3 px-3 py-4">SUBSCRIBE</button>
-//      </div>
-//      <span className="text-xs text-center">By subscribing, you agree to our Privacy Policy and consent to receive updates</span>
-//     </div>
-//     </>
-//   );
-// };
-
-// export default NewsletterSignup;
-
 const NewsletterSignup = () => {
     return (
       <section className="w-full bg-gray-900 py-16 px-4 sm:px-6 lg:px-8">
