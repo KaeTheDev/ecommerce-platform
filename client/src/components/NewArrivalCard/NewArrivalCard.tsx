@@ -1,13 +1,13 @@
 const NewArrivalCard = () => {
   return (
-    <div className="group relative flex h-80 w-64 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
       {/* Save Icon (Star) */}
       <button className="absolute top-3 right-3 text-gray-400 hover:text-yellow-400 transition text-xl">
         ☆
       </button>
 
       {/* Image */}
-      <div className="h-3/4 overflow-hidden bg-gray-50">
+      <div className="aspect-square overflow-hidden bg-gray-50">
         <img
           src="/assets/images/filler-image.jpg"
           alt="Diamond Bracelet"
@@ -16,7 +16,7 @@ const NewArrivalCard = () => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-col p-4">
         <p className="mt-1 font-semibold text-lg leading-tight line-clamp-2">
           Diamond Bracelet
         </p>

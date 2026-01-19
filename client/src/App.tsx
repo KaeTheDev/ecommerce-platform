@@ -68,7 +68,7 @@ function App() {
                 />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/favorites" element={<Favorites />} />
-                <Route path="/newarrivals" element={<NewArrivals />} />
+                <Route path="/new-arrivals" element={<NewArrivals />} />
               </Routes>
 
               {/* Global Footer */}
