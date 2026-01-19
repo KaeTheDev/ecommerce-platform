@@ -39,11 +39,11 @@ const SiteFooter = () => {
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-tight">
                   Shop
                 </h3>
-                <a href="#" className="text-sm hover:text-black transition-colors">Bracelets</a>
-                <a href="#" className="text-sm hover:text-black transition-colors">Earrings</a>
-                <a href="#" className="text-sm hover:text-black transition-colors">Necklaces</a>
-                <a href="#" className="text-sm hover:text-black transition-colors">Rings</a>
-                <a href="#" className="text-sm hover:text-black transition-colors">Watches</a>
+                <a href="/collections/bracelets" className="text-sm hover:text-black transition-colors">Bracelets</a>
+                <a href="/collections/earrings" className="text-sm hover:text-black transition-colors">Earrings</a>
+                <a href="/collections/necklaces" className="text-sm hover:text-black transition-colors">Necklaces</a>
+                <a href="/collections/rings" className="text-sm hover:text-black transition-colors">Rings</a>
+                <a href="/collections/watches" className="text-sm hover:text-black transition-colors">Watches</a>
               </div>
   
               {/* About */}
