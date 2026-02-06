@@ -1,4 +1,4 @@
-# Luxarist
+# E-Commerce Platform (Luxarist Old)
 Full-Stack MERN &amp; TypeScript Jewelry E-Commerce Application
 
 ## RESOURCES
